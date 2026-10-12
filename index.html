@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Descripción del producto." />
+    <title>Nombre del producto</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header container">
+      <a href="#inicio" aria-label="Marca, inicio">Marca</a>
+      <nav aria-label="Navegación principal">
+        <a href="#detalles">Detalles</a>
+      </nav>
+    </header>
+
+    <main id="contenido" class="container">
+      <!-- Presentación -->
+      <section id="inicio" class="hero section" aria-labelledby="hero-title">
+        <div>
+          <p>Categoría del producto</p>
+          <h1 id="hero-title">Nombre del producto</h1>
+          <p>Descripción breve del producto.</p>
+          <a href="#detalles">Explorar detalles</a>
+        </div>
+        <figure class="product-reference">
+          <img id="watch-image" src="assets/watch-reference.png"
+            alt="Reloj de acero con esfera verde y brazalete metálico."
+            width="1451" height="2160" />
+          <figcaption>Imagen del producto</figcaption>
+        </figure>
+      </section>
+
+      <!-- Detalles -->
+      <section id="detalles" class="section" aria-labelledby="details-title">
+        <h2 id="details-title">Título de la sección</h2>
+        <p>Descripción de las características del producto.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer container">
+      <p>Nombre de la marca</p>
+    </footer>
+  </body>
+</html>
