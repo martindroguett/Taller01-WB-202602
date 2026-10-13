@@ -1,63 +1,155 @@
-/* Estilos base para móvil. */
-* { box-sizing: border-box; }
-
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  background: #f5f5f2;
-  color: #202620;
-  font-family: system-ui, sans-serif;
-  line-height: 1.6;
+  background: #f1efe7;
+  color: #183b2b;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
-
-img { display: block; max-width: 100%; height: auto; }
-a { color: #245942; text-underline-offset: 0.2em; }
-figure { margin: 0; }
-section { scroll-margin-top: 1.5rem; }
-:focus-visible { outline: 3px solid #245942; outline-offset: 4px; }
-
-.skip-link {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  padding: 0.75rem;
-  background: #f5f5f2;
-  transform: translateY(-200%);
-  z-index: 10;
-}
-
-.skip-link:focus { transform: translateY(0); }
-
-/* Distribución en móvil. */
-.container {
-  width: min(68rem, calc(100% - 2rem));
-  margin-inline: auto;
-}
-
-.site-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding-block: 1.5rem;
-  border-bottom: 1px solid #d3d8d3;
-}
-
-.section { padding-block: 2rem; }
 .hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
+  --ancho-reloj: min(330px, 88vw);
+  position: relative;
+  overflow: hidden;
+  min-height: 980px;
+}
+header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 28px 24px;
 }
-.product-reference { width: min(100%, 18rem); justify-self: center; }
-.product-reference figcaption { margin-top: 0.75rem; font-size: 0.875rem; }
-.site-footer { padding-block: 1.5rem; border-top: 1px solid #d3d8d3; }
-
-/* Desde 768 px: ampliar espacios y pasar a dos columnas. */
-@media (min-width: 48rem) {
-  .container { width: min(68rem, calc(100% - 3rem)); }
-  .section { padding-block: 3rem; }
-  .hero { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
+header .marca {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  letter-spacing: 3px;
+}
+header p, .etiqueta, footer {
+  font-size: 9px;
+  letter-spacing: 2px;
+  margin: 0;
+}
+.escena {
+  position: absolute;
+  top: 410px;
+  left: 0;
+  width: 100%;
+  height: 520px;
+  pointer-events: none;
+}
+.entrada-tela {
+  position: absolute;
+  top: 50%;
+  /* 73% del SVG ampliado coincide con el 50% de la escena móvil */
+  left: -96%;
+  width: 200%;
+  height: calc(var(--ancho-reloj) * 1.55);
+  transform: translateY(-50%);
+}
+.cortina {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform-origin: left center;
+}
+#pliegues {
+  transform-origin: 876px 390px;
+}
+.presentacion {
+  position: relative;
+  z-index: 3;
+  padding: 30px 24px 0;
+}
+h1 {
+  margin: 18px 0;
+  font-family: Georgia, serif;
+  font-size: 46px;
+  font-weight: normal;
+  line-height: 1.05;
+}
+.descripcion {
+  color: #496151;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.producto {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  width: var(--ancho-reloj);
+  transform: translate(-50%, -44%);
+}
+.producto img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 24px 32px rgba(5, 22, 14, 0.45));
+}
+footer {
+  position: absolute;
+  bottom: 22px;
+  left: 24px;
+  right: 24px;
+  text-align: right;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  z-index: 3;
 }
 
-/* Animaciones */
+@media (min-width: 768px) {
+  .hero {
+    --ancho-reloj: min(460px, 38vw);
+    min-height: 780px;
+    height: 100vh;
+  }
+  header {
+    padding: 35px 7%;
+    color: #f1efe7;
+  }
+  header p:not(.marca) {
+    color: #183b2b;
+    background: rgba(241, 239, 231, 0.85);
+    padding: 6px 10px;
+    border-radius: 3px;
+  }
+  .escena {
+    top: 0;
+    height: 100%;
+  }
+  .entrada-tela {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  .presentacion {
+    position: absolute;
+    top: 26%;
+    left: 7%;
+    max-width: 460px;
+    padding: 0;
+    color: #f1efe7;
+  }
+  h1 {
+    font-size: clamp(48px, 5.5vw, 84px);
+  }
+  .descripcion {
+    color: #d0dacf;
+    font-size: 15px;
+  }
+  .producto {
+    top: 50%;
+    left: 73%;
+  }
+  footer {
+    left: 7%;
+    right: 7%;
+    bottom: 30px;
+    color: #183b2b;
+  }
+}

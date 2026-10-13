@@ -1,19 +1,11 @@
-# Taller 1 · Landing de un reloj
+# Taller 1 · Web Móvil
 
-Proyecto de Web Móvil con HTML, CSS y JavaScript.
+Prototipo de una página de presentación de producto desarrollado para el curso de Web Móvil.
 
-```text
-index.html              Estructura y contenido
-css/styles.css          Estilos y animaciones CSS
-js/script.js            Interacciones y animaciones JavaScript
-assets/                 Imágenes y otros recursos
-```
+## Tecnologías
 
-Abrir `index.html` en el navegador o usar Live Server en VS Code.
-No requiere instalar dependencias.
+HTML, CSS, JavaScript y GSAP.
 
-Trabajar mobile first: estilos base para móvil y media queries con `min-width`
-para ampliar a escritorio. Revisar primero en 320–390 px y después en escritorio,
-incluyendo las interacciones y animaciones que se agreguen.
+## Ejecución
 
-Estructura inicial con textos de ejemplo e imagen de referencia.
+Abrir `index.html` en un navegador o usar Live Server. No requiere instalar paquetes.

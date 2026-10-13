@@ -1,48 +1,72 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Descripción del producto." />
-    <title>Nombre del producto</title>
-    <link rel="stylesheet" href="css/styles.css" />
-    <script src="js/script.js" defer></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <header class="site-header container">
-      <a href="#inicio" aria-label="Marca, inicio">Marca</a>
-      <nav aria-label="Navegación principal">
-        <a href="#detalles">Detalles</a>
-      </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prototipo de hero con una animación de entrada." />
+  <title>Taller 1</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <main class="hero" aria-labelledby="hero-title">
+    <header>
+      <p class="marca">Marca</p>
+      <p>Categoría</p>
     </header>
 
-    <main id="contenido" class="container">
-      <!-- Presentación -->
-      <section id="inicio" class="hero section" aria-labelledby="hero-title">
-        <div>
-          <p>Categoría del producto</p>
-          <h1 id="hero-title">Nombre del producto</h1>
-          <p>Descripción breve del producto.</p>
-          <a href="#detalles">Explorar detalles</a>
-        </div>
-        <figure class="product-reference">
-          <img id="watch-image" src="assets/watch-reference.png"
-            alt="Reloj de acero con esfera verde y brazalete metálico."
-            width="1451" height="2160" />
-          <figcaption>Imagen del producto</figcaption>
-        </figure>
-      </section>
+    <div class="escena">
+      <div class="entrada-tela">
+        <svg class="cortina" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="verde" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="800">
+              <stop offset="0" stop-color="#0d261b" />
+              <stop offset="0.35" stop-color="#1d4732" />
+              <stop offset="0.68" stop-color="#123122" />
+              <stop offset="0.85" stop-color="#29543c" />
+              <stop offset="1" stop-color="#0b2016" />
+            </linearGradient>
+            <radialGradient id="luz-pliegue" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#b9d0b2" stop-opacity="0.28" />
+              <stop offset="1" stop-color="#b9d0b2" stop-opacity="0" />
+            </radialGradient>
+            <radialGradient id="sombra-pliegue" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#02110b" stop-opacity="0.55" />
+              <stop offset="1" stop-color="#02110b" stop-opacity="0" />
+            </radialGradient>
 
-      <!-- Detalles -->
-      <section id="detalles" class="section" aria-labelledby="details-title">
-        <h2 id="details-title">Título de la sección</h2>
-        <p>Descripción de las características del producto.</p>
-      </section>
-    </main>
+            <!-- GSAP interpola estos caminos porque tienen la misma cantidad de nodos. -->
+            <path id="tela-delgada" d="M -80 370 C 200 365 480 365 650 370 C 750 372 810 375 876 375 C 940 375 990 372 1280 370 L 1280 410 C 990 408 940 405 876 405 C 810 405 750 408 650 410 C 480 415 200 415 -80 410 Z" />
+            <path id="tela-inflada" d="M -80 -20 C 200 -20 480 -10 650 30 C 750 55 810 110 876 110 C 940 110 990 45 1280 -20 L 1280 820 C 990 745 940 670 876 670 C 810 670 750 725 650 750 C 480 790 200 790 -80 760 Z" />
+            <path id="tela-final" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
 
-    <footer class="site-footer container">
-      <p>Nombre de la marca</p>
-    </footer>
-  </body>
+            <clipPath id="recorte-tela"><use href="#tela" /></clipPath>
+          </defs>
+
+          <path id="tela" fill="url(#verde)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
+          <g id="pliegues" clip-path="url(#recorte-tela)">
+            <path fill="url(#luz-pliegue)" d="M -80 80 C 380 40 660 110 876 215 C 650 185 380 220 -80 260 Z" />
+            <path fill="url(#sombra-pliegue)" d="M -80 490 C 380 510 660 610 876 565 C 650 670 350 740 -80 710 Z" />
+            <path fill="url(#luz-pliegue)" d="M 876 215 C 1010 130 1090 50 1280 60 L 1280 250 C 1080 230 990 235 876 215 Z" />
+            <path fill="url(#sombra-pliegue)" d="M 876 565 C 1020 620 1100 500 1280 480 L 1280 760 C 1090 740 1020 660 876 565 Z" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="producto">
+        <img id="reloj" src="assets/m124060-0001.webp" alt="Imagen provisional de un reloj negro con brazalete de acero." width="800" height="1180" fetchpriority="high" />
+      </div>
+    </div>
+
+    <div class="presentacion">
+      <p class="etiqueta anim-texto">CATEGORÍA DEL PRODUCTO</p>
+      <h1 id="hero-title" class="anim-texto">Nombre del<br /><em>producto</em></h1>
+      <p class="descripcion anim-texto">Descripción breve del producto.</p>
+    </div>
+
+    <footer>INFORMACIÓN DEL PRODUCTO</footer>
+  </main>
+
+</body>
 </html>
