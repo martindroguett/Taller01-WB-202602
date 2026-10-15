@@ -6,9 +6,11 @@
   <meta name="description" content="Prototipo de hero con una animación de entrada." />
   <title>Taller 1</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/caracteristicas.css" />
   <script src="js/vendor/gsap.min.js" defer></script>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>
   <script src="js/script.js" defer></script>
+  <script src="js/caracteristicas.js" defer></script>
 </head>
 <body>
   <main class="hero" aria-labelledby="hero-title">
@@ -68,6 +70,58 @@
 
     <footer>INFORMACIÓN DEL PRODUCTO</footer>
   </main>
+
+  <!--
+    Características: sección alta con un escenario fijo (sticky). Al hacer scroll, primero sube el cristal con la esfera
+    (el centro) y después el bisel (hacia afuera), y la característica activa va cambiando. La lógica está en js/caracteristicas.js.
+    Cada capa es un PNG/WebP recortado de la misma foto, por eso calzan entre sí.
+  -->
+  <section id="caracteristicas" class="carac" aria-labelledby="titulo-carac">
+    <div class="carac_escenario">
+      <div class="carac_texto">
+        <p class="etiqueta">CARACTERÍSTICAS</p>
+        <h2 id="titulo-carac">Cada pieza,<br /><em>una función</em></h2>
+
+        <ol class="carac_lista">
+          <li class="activa" data-desde="0">
+            <span class="num">01 · TAMAÑO</span>
+            <h3>Caja de 41 mm</h3>
+            <p>Fabricada en acero Oystersteel en sus versiones estándar, y también en otros materiales como oro y Rolesor.</p>
+          </li>
+          <li data-desde="0.15">
+            <span class="num">02 · MOVIMIENTO</span>
+            <h3>Calibre 3230</h3>
+            <p>Versión sin fecha. El Submariner Date usa el calibre 3235. Reserva de marcha de aproximadamente 70 horas.</p>
+          </li>
+          <li data-desde="0.45">
+            <span class="num">03 · BISEL</span>
+            <h3>Bisel Cerachrom</h3>
+            <p>Bisel giratorio unidireccional con disco Cerachrom graduado en 60 minutos para controlar el tiempo de inmersión.</p>
+          </li>
+          <li data-desde="0.7">
+            <span class="num">04 · HERMETICIDAD</span>
+            <h3>300 metros</h3>
+            <p>Resistente al agua hasta 300 metros (1.000 pies) gracias a su caja Oyster y la corona Triplock.</p>
+          </li>
+          <li data-desde="0.86">
+            <span class="num">05 · BRAZALETE</span>
+            <h3>Brazalete Oyster</h3>
+            <p>Con cierre de seguridad Oysterlock y sistema de extensión Rolex Glidelock.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="carac_reloj" role="img" aria-label="Rolex Submariner negro visto de costado: el bisel y el cristal se separan hacia arriba de la caja">
+        <div class="carac_escena">
+          <img class="capa capa--base" src="assets/reloj-capas/base.webp" alt="" width="1400" height="479" />
+          <img class="capa capa--bisel" src="assets/reloj-capas/bisel.webp" alt="" width="763" height="298" data-a="0.42" data-b="0.8" />
+          <img class="capa capa--cristal" src="assets/reloj-capas/cristal.webp" alt="" width="577" height="195" data-a="0.12" data-b="0.48" />
+        </div>
+      </div>
+
+      <div class="carac_progreso" aria-hidden="true"></div>
+    </div>
+  </section>
 
   <section class="panel-3d" aria-labelledby="titulo-3d">
     <div class="panel-3d_texto">

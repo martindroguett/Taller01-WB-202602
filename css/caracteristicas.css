@@ -1,0 +1,258 @@
+/* Sección "Características": el reloj se despiece hacia arriba según el scroll.
+   Todo está acotado bajo .carac para no afectar al resto de la página. */
+
+.carac {
+  /* Sección muy alta: mientras el escenario está pegado (sticky), el usuario recorre este alto menos el de la pantalla. */
+  height: 480vh;
+  position: relative;
+  background: #f1efe7;
+  color: #123122;
+}
+
+.carac_escenario {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px 0;
+}
+
+/* ---------- Texto ---------- */
+.carac_texto {
+  position: relative;
+  z-index: 2;
+}
+
+.carac .etiqueta {
+  color: #136207;
+}
+
+.carac_texto h2 {
+  margin: 12px 0 16px;
+  font-family: Georgia, serif;
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 1.12;
+}
+
+.carac_texto h2 em {
+  font-style: italic;
+  color: #136207;
+}
+
+.carac_lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.carac_lista li {
+  display: none;
+  border-left: 2px solid #136207;
+  padding: 2px 0 2px 14px;
+}
+
+.carac_lista li.activa {
+  display: block;
+  animation: carac-entra 0.45s ease both;
+}
+
+.carac_lista h3 {
+  margin: 0 0 6px;
+  font-family: Georgia, serif;
+  font-size: 19px;
+  font-weight: normal;
+}
+
+.carac_lista .num {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #136207;
+  margin-bottom: 4px;
+}
+
+.carac_lista p {
+  margin: 0;
+  color: #496151;
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 46ch;
+}
+
+@keyframes carac-entra {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Reloj ---------- */
+.carac_reloj {
+  /* ancho del lienzo donde se apilan las capas (la foto original mide 1400 x 600) */
+  --cw: 150vw;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 -24px;
+}
+
+.carac_escena {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: var(--cw);
+  aspect-ratio: 1400 / 600;
+  transform: translateX(-50%);
+}
+
+/* Cada capa sube:  y = -alza * q   (alza en fracción del ancho del lienzo; q de 0 a 1 lo escribe el JavaScript) */
+.capa {
+  position: absolute;
+  height: auto;
+  transform: translateY(calc(var(--cw) * var(--alza, 0) * var(--q, 0) * -1));
+  will-change: transform;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* posición de cada pieza dentro del lienzo de 1400 x 600 (viene de recortar la foto) */
+.capa--base    { left: 0;        top: 6%;    width: 100%;    z-index: 1; }
+.capa--bisel   { left: 22.79%;   top: 6.5%;  width: 54.5%;   z-index: 2; --alza: 0.075; }
+.capa--cristal { left: 29.43%;   top: 10%;   width: 41.21%;  z-index: 3; --alza: 0.17; }
+
+.carac_progreso {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 14px;
+  height: 2px;
+  background: rgba(18, 49, 34, 0.15);
+}
+
+.carac_progreso::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #136207;
+  transform-origin: left;
+  transform: scaleX(var(--p, 0));
+}
+
+/* ---------- Tablet: sigue apilado, con el reloj un poco más grande ---------- */
+@media (min-width: 768px) {
+  .carac_reloj {
+    --cw: min(120vw, 900px);
+  }
+
+  .carac_texto h2 {
+    font-size: 34px;
+  }
+
+  .carac_lista p {
+    font-size: 15px;
+  }
+}
+
+/* ---------- Escritorio ---------- */
+@media (min-width: 1024px) {
+  .carac_escenario {
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+    padding: 0 7%;
+  }
+
+  .carac_texto {
+    flex: 0 0 min(340px, 30%);
+  }
+
+  .carac_texto h2 {
+    font-size: clamp(32px, 3.2vw, 46px);
+  }
+
+  /* en escritorio se ve la lista completa y la activa se resalta */
+  .carac_lista li {
+    display: block;
+    opacity: 0.38;
+    margin-bottom: 14px;
+    border-left-color: rgba(18, 49, 34, 0.25);
+    transition: opacity 0.3s ease, border-color 0.3s ease;
+  }
+
+  .carac_lista li.activa {
+    opacity: 1;
+    border-left-color: #136207;
+    animation: none;
+  }
+
+  .carac_lista p {
+    display: none;
+    max-width: 100%;
+  }
+
+  .carac_lista li.activa p {
+    display: block;
+  }
+
+  .carac_reloj {
+    /* el reloj ocupa lo que queda a la derecha del texto y sangra un poco por el borde de la pantalla */
+    --cw: min(calc(100vw - 470px), 1150px);
+    flex: 1;
+    height: 78%;
+    margin: 0;
+  }
+
+  .carac_escena {
+    left: auto;
+    right: -7vw;
+    transform: none;
+    bottom: 0;
+  }
+
+  .carac_progreso {
+    left: 7%;
+    right: 7%;
+    bottom: 26px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .carac {
+    height: auto;
+  }
+
+  .carac_escenario {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding-bottom: 40px;
+  }
+
+  .carac_reloj {
+    height: calc(var(--cw) * 0.62);
+    flex: none;
+  }
+
+  .capa {
+    --q: 1;
+  }
+
+  .carac_lista li {
+    display: block;
+    opacity: 1;
+    margin-bottom: 14px;
+    animation: none;
+  }
+
+  .carac_lista p {
+    display: block;
+  }
+
+  .carac_progreso {
+    display: none;
+  }
+}
