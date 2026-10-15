@@ -59,3 +59,22 @@ if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matche
       "-=0.8"
     );
 }
+
+const visor3d = document.getElementById("modelo-3d");
+if (visor3d) {
+  
+  const orbitaInicial = visor3d.getAttribute("camera-orbit");
+
+  const botonAutoRotar = document.getElementById("boton-auto-rotar");
+  botonAutoRotar?.addEventListener("click", () => {
+    const activa = visor3d.hasAttribute("auto-rotate");
+    visor3d.toggleAttribute("auto-rotate", !activa);
+    botonAutoRotar.setAttribute("aria-pressed", String(!activa));
+  });
+
+  const botonResetVista = document.getElementById("boton-reset-vista");
+  botonResetVista?.addEventListener("click", () => {
+    visor3d.cameraOrbit = orbitaInicial;
+    visor3d.jumpCameraToGoal();
+  });
+}
