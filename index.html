@@ -11,6 +11,7 @@
   <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>
   <script src="js/script.js" defer></script>
   <script src="js/caracteristicas.js" defer></script>
+  <script src="js/fondo-carac.js" defer></script>
 </head>
 <body>
   <main class="hero" aria-labelledby="hero-title">
@@ -23,20 +24,20 @@
       <div class="entrada-tela">
         <svg class="cortina" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
           <defs>
-            <linearGradient id="verde" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="800">
-              <stop offset="0" stop-color="#0d261b" />
-              <stop offset="0.35" stop-color="#1d4732" />
-              <stop offset="0.68" stop-color="#123122" />
-              <stop offset="0.85" stop-color="#29543c" />
-              <stop offset="1" stop-color="#0b2016" />
+            <linearGradient id="marino" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="800">
+              <stop offset="0" stop-color="#0a1a30" />
+              <stop offset="0.35" stop-color="#1b3b63" />
+              <stop offset="0.68" stop-color="#10284a" />
+              <stop offset="0.85" stop-color="#28507e" />
+              <stop offset="1" stop-color="#07142a" />
             </linearGradient>
             <radialGradient id="luz-pliegue" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stop-color="#b9d0b2" stop-opacity="0.28" />
-              <stop offset="1" stop-color="#b9d0b2" stop-opacity="0" />
+              <stop offset="0" stop-color="#b9cbe2" stop-opacity="0.28" />
+              <stop offset="1" stop-color="#b9cbe2" stop-opacity="0" />
             </radialGradient>
             <radialGradient id="sombra-pliegue" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stop-color="#02110b" stop-opacity="0.55" />
-              <stop offset="1" stop-color="#02110b" stop-opacity="0" />
+              <stop offset="0" stop-color="#020814" stop-opacity="0.55" />
+              <stop offset="1" stop-color="#020814" stop-opacity="0" />
             </radialGradient>
 
             <!-- GSAP interpola estos caminos porque tienen la misma cantidad de nodos. -->
@@ -47,7 +48,7 @@
             <clipPath id="recorte-tela"><use href="#tela" /></clipPath>
           </defs>
 
-          <path id="tela" fill="url(#verde)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
+          <path id="tela" fill="url(#marino)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
           <g id="pliegues" clip-path="url(#recorte-tela)">
             <path fill="url(#luz-pliegue)" d="M -80 80 C 380 40 660 110 876 215 C 650 185 380 220 -80 260 Z" />
             <path fill="url(#sombra-pliegue)" d="M -80 490 C 380 510 660 610 876 565 C 650 670 350 740 -80 710 Z" />
@@ -78,6 +79,14 @@
   -->
   <section id="caracteristicas" class="carac" aria-labelledby="titulo-carac">
     <div class="carac_escenario">
+      <!-- Fondo animado: burbujas (js/fondo-carac.js). Los haces de luz son un ::before en el CSS. -->
+      <canvas class="carac_fondo" aria-hidden="true"></canvas>
+
+      <div class="carac_profundidad" aria-hidden="true">
+        <span class="valor"><span class="carac_metros">0</span><small>m</small></span>
+        <span class="rotulo">PROFUNDIDAD</span>
+      </div>
+
       <div class="carac_texto">
         <p class="etiqueta">CARACTERÍSTICAS</p>
         <h2 id="titulo-carac">Cada pieza,<br /><em>una función</em></h2>
