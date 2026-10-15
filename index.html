@@ -7,6 +7,7 @@
   <title>Taller 1</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script src="js/vendor/gsap.min.js" defer></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>
   <script src="js/script.js" defer></script>
 </head>
 <body>
@@ -68,5 +69,37 @@
     <footer>INFORMACIÓN DEL PRODUCTO</footer>
   </main>
 
+  <section class="panel-3d" aria-labelledby="titulo-3d">
+    <div class="panel-3d_texto">
+      <p class="etiqueta">VISTA INTERACTIVA</p>
+      <h2 id="titulo-3d">Explora el modelo en<br /><em>3D</em></h2>
+      <p class="descripcion">arrastra o desliza</p>
+    </div>
+
+    <div class="visor-3d">
+      <model-viewer
+        id="modelo-3d"
+        class="visor-3d_viewer"
+        src="assets/model.glb"
+        environment-image="assets/studio.hdr"
+        alt="Modelo 3D"
+        camera-controls
+        interaction-prompt="none"
+        touch-action="pan-y"
+        auto-rotate
+        auto-rotate-delay="20"
+        rotation-per-second="10deg"
+        shadow-intensity="1"
+        exposure="1"
+        camera-orbit="135deg 75deg 105%"
+      >
+        <div class="visor-3d_carga" slot="poster">Cargando modelo…</div>
+      </model-viewer>
+
+      <div class="visor-3d_controles">
+        <button type="button" id="boton-reset-vista">Restablecer vista</button>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
