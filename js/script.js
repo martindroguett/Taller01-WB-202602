@@ -58,6 +58,47 @@ if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matche
     );
 }
 
+const seccionesNavegacion = ["inicio", "caracteristicas", "modelos"]
+  .map((id) => document.getElementById(id))
+  .filter(Boolean);
+const enlacesNavegacion = [...document.querySelectorAll(".hero-nav a[href^='#']")];
+let cuadroScrollPendiente = 0;
+
+function actualizarSeccionNavegacion() {
+  cuadroScrollPendiente = 0;
+  const referencia = window.scrollY + window.innerHeight * 0.35;
+  let actual = seccionesNavegacion[0];
+
+  seccionesNavegacion.forEach((seccion) => {
+    const inicio = seccion.getBoundingClientRect().top + window.scrollY;
+    if (inicio <= referencia) actual = seccion;
+  });
+
+  if (!actual) return;
+
+  const fragmento = `#${actual.id}`;
+  if (window.location.hash !== fragmento) {
+    const url = new URL(window.location.href);
+    url.hash = actual.id;
+    window.history.replaceState(window.history.state, "", url);
+  }
+
+  enlacesNavegacion.forEach((enlace) => {
+    if (enlace.hash === fragmento) enlace.setAttribute("aria-current", "location");
+    else enlace.removeAttribute("aria-current");
+  });
+}
+
+function programarActualizacionSeccion() {
+  if (!cuadroScrollPendiente) {
+    cuadroScrollPendiente = window.requestAnimationFrame(actualizarSeccionNavegacion);
+  }
+}
+
+window.addEventListener("scroll", programarActualizacionSeccion, { passive: true });
+window.addEventListener("resize", programarActualizacionSeccion);
+window.addEventListener("pageshow", programarActualizacionSeccion);
+
 const visor3d = document.getElementById("modelo-3d");
 if (visor3d) {
   

@@ -53,6 +53,7 @@
       tarjeta.classList.add("activa");
       tarjeta.setAttribute("aria-expanded", "true");
     }
+    lista.classList.toggle("hay-seleccion", !yaActiva);
   }
 
   tarjetas.forEach((tarjeta) => {

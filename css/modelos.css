@@ -36,6 +36,7 @@
 
 .modelos_lista {
   display: flex;
+  align-items: start;
   gap: 16px;
   margin: 0;
   padding: 8px 24px 20px;
@@ -181,7 +182,8 @@
 }
 
 .modelo.activa .modelo_detalle,
-.modelo:focus-visible .modelo_detalle {
+.modelos_lista:not(.hay-seleccion) .modelo:hover .modelo_detalle,
+.modelos_lista:not(.hay-seleccion) .modelo:focus-visible .modelo_detalle {
   grid-template-rows: 1fr;
 }
 
@@ -195,10 +197,6 @@
   .modelo:hover .modelo_foto::before {
     opacity: 0.32;
     transform: scale(1);
-  }
-
-  .modelo:hover .modelo_detalle {
-    grid-template-rows: 1fr;
   }
 
   .modelo.siguiendo .modelo_foto img {
