@@ -6,9 +6,14 @@
   <meta name="description" content="Prototipo de hero con una animación de entrada." />
   <title>Taller 1</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/caracteristicas.css" />
+  <link rel="stylesheet" href="css/modelos.css" />
   <script src="js/vendor/gsap.min.js" defer></script>
   <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>
   <script src="js/script.js" defer></script>
+  <script src="js/caracteristicas.js" defer></script>
+  <script src="js/fondo-carac.js" defer></script>
+  <script src="js/modelos.js" defer></script>
 </head>
 <body>
   <main class="hero" aria-labelledby="hero-title">
@@ -21,20 +26,20 @@
       <div class="entrada-tela">
         <svg class="cortina" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
           <defs>
-            <linearGradient id="verde" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="800">
-              <stop offset="0" stop-color="#0d261b" />
-              <stop offset="0.35" stop-color="#1d4732" />
-              <stop offset="0.68" stop-color="#123122" />
-              <stop offset="0.85" stop-color="#29543c" />
-              <stop offset="1" stop-color="#0b2016" />
+            <linearGradient id="marino" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="800">
+              <stop offset="0" stop-color="#0a1a30" />
+              <stop offset="0.35" stop-color="#1b3b63" />
+              <stop offset="0.68" stop-color="#10284a" />
+              <stop offset="0.85" stop-color="#28507e" />
+              <stop offset="1" stop-color="#07142a" />
             </linearGradient>
             <radialGradient id="luz-pliegue" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stop-color="#b9d0b2" stop-opacity="0.28" />
-              <stop offset="1" stop-color="#b9d0b2" stop-opacity="0" />
+              <stop offset="0" stop-color="#b9cbe2" stop-opacity="0.28" />
+              <stop offset="1" stop-color="#b9cbe2" stop-opacity="0" />
             </radialGradient>
             <radialGradient id="sombra-pliegue" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stop-color="#02110b" stop-opacity="0.55" />
-              <stop offset="1" stop-color="#02110b" stop-opacity="0" />
+              <stop offset="0" stop-color="#020814" stop-opacity="0.55" />
+              <stop offset="1" stop-color="#020814" stop-opacity="0" />
             </radialGradient>
 
             <!-- GSAP interpola estos caminos porque tienen la misma cantidad de nodos. -->
@@ -45,7 +50,7 @@
             <clipPath id="recorte-tela"><use href="#tela" /></clipPath>
           </defs>
 
-          <path id="tela" fill="url(#verde)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
+          <path id="tela" fill="url(#marino)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
           <g id="pliegues" clip-path="url(#recorte-tela)">
             <path fill="url(#luz-pliegue)" d="M -80 80 C 380 40 660 110 876 215 C 650 185 380 220 -80 260 Z" />
             <path fill="url(#sombra-pliegue)" d="M -80 490 C 380 510 660 610 876 565 C 650 670 350 740 -80 710 Z" />
@@ -68,6 +73,77 @@
 
     <footer>INFORMACIÓN DEL PRODUCTO</footer>
   </main>
+
+  <!--
+    Características: sección alta con un escenario fijo (sticky). Al hacer scroll, primero sube el cristal con la esfera
+    (el centro) y después el bisel (hacia afuera), y la característica activa va cambiando. La lógica está en js/caracteristicas.js.
+    Cada capa es un PNG/WebP recortado de la misma foto, por eso calzan entre sí.
+  -->
+  <section id="caracteristicas" class="carac" aria-labelledby="titulo-carac">
+    <div class="carac_escenario">
+      <!-- Agua que sube con el scroll: dos olas que se desplazan de lado y un cuerpo de agua bajo ellas.
+           El nivel lo controla --p (CSS); el vaivén es un @keyframes. -->
+      <div class="carac_agua" aria-hidden="true">
+        <svg class="ola ola--atras" viewBox="0 0 2400 100" preserveAspectRatio="none">
+          <path d="M0 50 Q150 15 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" />
+        </svg>
+        <svg class="ola ola--frente" viewBox="0 0 2400 100" preserveAspectRatio="none">
+          <path d="M0 50 Q150 15 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" />
+        </svg>
+      </div>
+
+      <!-- Fondo animado: burbujas (js/fondo-carac.js). Los haces de luz son un ::before en el CSS. -->
+      <canvas class="carac_fondo" aria-hidden="true"></canvas>
+
+      <div class="carac_profundidad" aria-hidden="true">
+        <span class="valor"><span class="carac_metros">0</span><small>m</small></span>
+        <span class="rotulo">PROFUNDIDAD</span>
+      </div>
+
+      <div class="carac_texto">
+        <p class="etiqueta">CARACTERÍSTICAS</p>
+        <h2 id="titulo-carac">Cada pieza,<br /><em>una función</em></h2>
+
+        <ol class="carac_lista">
+          <li class="activa" data-desde="0">
+            <span class="num">01 · TAMAÑO</span>
+            <h3>Caja de 41 mm</h3>
+            <p>Fabricada en acero Oystersteel en sus versiones estándar, y también en otros materiales como oro y Rolesor.</p>
+          </li>
+          <li data-desde="0.15">
+            <span class="num">02 · MOVIMIENTO</span>
+            <h3>Calibre 3230</h3>
+            <p> El Submariner Date usa el calibre 3235. Reserva de marcha de aproximadamente 70 horas.</p>
+          </li>
+          <li data-desde="0.45">
+            <span class="num">03 · BISEL</span>
+            <h3>Bisel Cerachrom</h3>
+            <p>Bisel giratorio unidireccional con disco Cerachrom graduado en 60 minutos para controlar el tiempo de inmersión.</p>
+          </li>
+          <li data-desde="0.7">
+            <span class="num">04 · HERMETICIDAD</span>
+            <h3>300 metros</h3>
+            <p>Resistente al agua hasta 300 metros (1.000 pies) gracias a su caja Oyster y la corona Triplock.</p>
+          </li>
+          <li data-desde="0.86">
+            <span class="num">05 · BRAZALETE</span>
+            <h3>Brazalete Oyster</h3>
+            <p>Con cierre de seguridad Oysterlock y sistema de extensión Rolex Glidelock.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="carac_reloj" role="img" aria-label="Rolex Submariner negro visto de costado: el bisel y el cristal se separan hacia arriba de la caja">
+        <div class="carac_escena">
+          <img class="capa capa--base" src="assets/reloj-capas/base.webp" alt="" width="1400" height="479" />
+          <img class="capa capa--bisel" src="assets/reloj-capas/bisel.webp" alt="" width="741" height="335" data-a="0.42" data-b="0.8" />
+          <img class="capa capa--cristal" src="assets/reloj-capas/cristal.webp" alt="" width="585" height="201" data-a="0.12" data-b="0.48" />
+        </div>
+      </div>
+
+      <div class="carac_progreso" aria-hidden="true"></div>
+    </div>
+  </section>
 
   <section class="panel-3d" aria-labelledby="titulo-3d">
     <div class="panel-3d_texto">
@@ -101,5 +177,110 @@
       </div>
     </div>
   </section>
+
+  <!--
+    La colección: una tarjeta por modelo. --tono es el color del bisel (halo y muestra de color).
+    Animaciones por evento en js/modelos.js: entrada escalonada, giro 3D con el mouse y activación con toque/clic.
+  -->
+  <section id="modelos" class="modelos" aria-labelledby="titulo-modelos">
+    <div class="modelos_cabecera">
+      <p class="etiqueta">LA COLECCIÓN</p>
+      <h2 id="titulo-modelos">Un mismo espíritu,<br /><em>cinco caracteres</em></h2>
+      <p>El Submariner se ofrece en distintos materiales y colores de bisel. Pasa el cursor o toca un modelo para ver su detalle.</p>
+    </div>
+
+    <ul class="modelos_lista">
+      <li class="modelo" style="--tono: #1b1d22" tabindex="0" aria-expanded="false">
+        <span class="modelo_insignia">ESTE MODELO</span>
+        <div class="modelo_foto">
+          <img src="assets/modelos/124060.webp" alt="Rolex Submariner 124060 de acero con bisel y esfera negros" width="347" height="560" loading="lazy" />
+        </div>
+        <p class="modelo_bisel">Bisel negro</p>
+        <h3>Submariner</h3>
+        <p class="modelo_ref">REF. 124060</p>
+        <div class="modelo_detalle">
+          <p>Oystersteel, esfera negra y sin fecha. Calibre 3230: el modelo que presenta esta página.</p>
+        </div>
+      </li>
+
+      <li class="modelo" style="--tono: #1b1d22" tabindex="0" aria-expanded="false">
+        <div class="modelo_foto">
+          <img src="assets/modelos/126610ln.webp" alt="Rolex Submariner Date 126610LN de acero con bisel y esfera negros" width="347" height="560" loading="lazy" />
+        </div>
+        <p class="modelo_bisel">Bisel negro</p>
+        <h3>Submariner Date</h3>
+        <p class="modelo_ref">REF. 126610LN</p>
+        <div class="modelo_detalle">
+          <p>Oystersteel y esfera negra, con ventana de fecha a las 3 y calibre 3235.</p>
+        </div>
+      </li>
+
+      <li class="modelo" style="--tono: #1f6b3a" tabindex="0" aria-expanded="false">
+        <div class="modelo_foto">
+          <img src="assets/modelos/126610lv.webp" alt="Rolex Submariner Date 126610LV de acero con bisel verde y esfera negra" width="347" height="560" loading="lazy" />
+        </div>
+        <p class="modelo_bisel">Bisel verde</p>
+        <h3>Submariner Date</h3>
+        <p class="modelo_ref">REF. 126610LV</p>
+        <div class="modelo_detalle">
+          <p>Oystersteel con bisel Cerachrom verde y esfera negra.</p>
+        </div>
+      </li>
+
+      <li class="modelo" style="--tono: #1f45a8" tabindex="0" aria-expanded="false">
+        <div class="modelo_foto">
+          <img src="assets/modelos/126619lb.webp" alt="Rolex Submariner Date 126619LB de oro blanco con bisel azul y esfera negra" width="347" height="560" loading="lazy" />
+        </div>
+        <p class="modelo_bisel">Bisel azul</p>
+        <h3>Submariner Date</h3>
+        <p class="modelo_ref">REF. 126619LB</p>
+        <div class="modelo_detalle">
+          <p>Oro blanco de 18 quilates, bisel Cerachrom azul y esfera negra.</p>
+        </div>
+      </li>
+
+      <li class="modelo" style="--tono: #1f45a8; --aro: #c9a54a" tabindex="0" aria-expanded="false">
+        <div class="modelo_foto">
+          <img src="assets/modelos/126613lb.webp" alt="Rolex Submariner Date 126613LB de acero y oro amarillo con bisel y esfera azules" width="347" height="560" loading="lazy" />
+        </div>
+        <p class="modelo_bisel">Bisel azul · Rolesor</p>
+        <h3>Submariner Date</h3>
+        <p class="modelo_ref">REF. 126613LB</p>
+        <div class="modelo_detalle">
+          <p>Rolesor amarillo (Oystersteel y oro amarillo), con bisel y esfera azules.</p>
+        </div>
+      </li>
+    </ul>
+
+    <p class="modelos_pista" aria-hidden="true">DESLIZA PARA VER MÁS →</p>
+  </section>
+
+  <footer class="pie">
+    <svg class="pie_ola" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 30 C 240 0 480 0 720 30 S 1200 60 1440 30 V60 H0 Z" />
+    </svg>
+
+    <div class="pie_contenido">
+      <div>
+        <p class="pie_marca">Submariner</p>
+        <p class="pie_lema">El reloj de buceo de referencia desde 1953, hermético hasta 300 metros.</p>
+      </div>
+
+      <nav aria-label="Secciones">
+        <h3>SECCIONES</h3>
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#caracteristicas">Características</a></li>
+          <li><a href="#modelos">La colección</a></li>
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class="pie_base">
+      <p>Proyecto académico sin fines comerciales. Rolex, Submariner, Oyster, Oystersteel, Cerachrom y Rolesor son marcas de Rolex SA; las imágenes se usan con fines educativos.</p>
+      <a class="pie_arriba" href="#">Volver arriba ↑</a>
+    </div>
+  </footer>
 </body>
 </html>
