@@ -116,12 +116,16 @@
   if (reducido) return;
 
   let visible = false;
+  function sincronizar() {
+    const activa = visible && !document.hidden;
+    seccion.classList.toggle("en-pantalla", activa);
+    activa ? iniciar() : detener();
+  }
+
   new IntersectionObserver(([entrada]) => {
     visible = entrada.isIntersecting;
-    visible && !document.hidden ? iniciar() : detener();
+    sincronizar();
   }).observe(seccion);
 
-  document.addEventListener("visibilitychange", () => {
-    visible && !document.hidden ? iniciar() : detener();
-  });
+  document.addEventListener("visibilitychange", sincronizar);
 })();

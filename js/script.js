@@ -62,6 +62,8 @@ const seccionesNavegacion = ["inicio", "caracteristicas", "vista-3d", "modelos"]
   .map((id) => document.getElementById(id))
   .filter(Boolean);
 const enlacesNavegacion = [...document.querySelectorAll(".hero-nav a[href^='#']")];
+const destinoInicial = seccionesNavegacion.find((seccion) => `#${seccion.id}` === window.location.hash);
+let navegacionLista = !destinoInicial;
 let cuadroScrollPendiente = 0;
 
 function actualizarSeccionNavegacion() {
@@ -90,6 +92,7 @@ function actualizarSeccionNavegacion() {
 }
 
 function programarActualizacionSeccion() {
+  if (!navegacionLista) return;
   if (!cuadroScrollPendiente) {
     cuadroScrollPendiente = window.requestAnimationFrame(actualizarSeccionNavegacion);
   }
@@ -97,10 +100,36 @@ function programarActualizacionSeccion() {
 
 window.addEventListener("scroll", programarActualizacionSeccion, { passive: true });
 window.addEventListener("resize", programarActualizacionSeccion);
-window.addEventListener("pageshow", programarActualizacionSeccion);
+window.addEventListener("pageshow", () => {
+  // Conservar los enlaces directos antes de sincronizar el hash con el scroll.
+  if (!navegacionLista) {
+    navegacionLista = true;
+    destinoInicial.scrollIntoView({ behavior: "instant" });
+  }
+  programarActualizacionSeccion();
+});
 
 const visor3d = document.getElementById("modelo-3d");
 if (visor3d) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    visor3d.removeAttribute("auto-rotate");
+  }
+
+  const mostrarError3d = () => {
+    visor3d.querySelector(".visor-3d_carga").textContent =
+      "No se pudo cargar el modelo. Recarga la página para intentarlo de nuevo.";
+  };
+  visor3d.addEventListener("error", mostrarError3d);
+
+  // Descargar la librería y preparar el 3D al acercarse, después del hero.
+  const observadorVisor = new IntersectionObserver(([entrada]) => {
+    if (!entrada.isIntersecting) return;
+    observadorVisor.disconnect();
+    import("https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js")
+      .catch(mostrarError3d);
+  }, { rootMargin: "1000px 0px" });
+  observadorVisor.observe(visor3d);
+
   const botonAutoRotar = document.getElementById("boton-auto-rotar");
   botonAutoRotar?.addEventListener("click", () => {
     const activa = visor3d.hasAttribute("auto-rotate");

@@ -1,8 +1,13 @@
 .carac {
+  --animacion-fondo: paused;
   height: 480vh;
   position: relative;
   background: #f1efe7;
   color: #10284a;
+}
+
+.carac.en-pantalla {
+  --animacion-fondo: running;
 }
 
 .carac_escenario {
@@ -244,6 +249,7 @@
   height: 34px;
   fill: rgba(36, 98, 178, 0.15);
   animation: carac-ola 9s linear infinite;
+  animation-play-state: var(--animacion-fondo);
 }
 
 .ola--atras {
@@ -251,6 +257,7 @@
   height: 30px;
   fill: rgba(36, 98, 178, 0.08);
   animation: carac-ola 14s linear infinite reverse;
+  animation-play-state: var(--animacion-fondo);
 }
 
 @keyframes carac-ola {
@@ -274,6 +281,7 @@
   -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
   mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
   animation: carac-luz 13s ease-in-out infinite alternate;
+  animation-play-state: var(--animacion-fondo);
   will-change: transform, opacity;
 }
 

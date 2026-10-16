@@ -31,9 +31,9 @@
     if (cara) {
       cara.src = RUTA_VIVO + opcion.dataset.base;
       const manecillas = opcion.dataset.manecillas;
-      manecillaHora.src = `${RUTA_VIVO}horario${manecillas}.png`;
-      manecillaMinuto.src = `${RUTA_VIVO}minutero${manecillas}.png`;
-      manecillaSegundo.src = `${RUTA_VIVO}segundero${manecillas}.png`;
+      manecillaHora.src = `${RUTA_VIVO}horario${manecillas}.webp`;
+      manecillaMinuto.src = `${RUTA_VIVO}minutero${manecillas}.webp`;
+      manecillaSegundo.src = `${RUTA_VIVO}segundero${manecillas}.webp`;
     }
   }
 
@@ -53,16 +53,34 @@
       manecillaHora.style.transform = `rotate(${horas * 30}deg)`;
     };
 
-    if (reducido) {
+    let idCuadro = 0;
+    let idIntervalo = 0;
+    let visible = false;
+
+    function cuadro() {
       actualizarReloj();
-      setInterval(actualizarReloj, 1000);
-    } else {
-      const cuadro = () => {
-        actualizarReloj();
-        requestAnimationFrame(cuadro);
-      };
-      requestAnimationFrame(cuadro);
+      idCuadro = requestAnimationFrame(cuadro);
     }
+
+    function sincronizar() {
+      if (visible && !document.hidden) {
+        if (idCuadro || idIntervalo) return;
+        actualizarReloj();
+        if (reducido) idIntervalo = setInterval(actualizarReloj, 1000);
+        else idCuadro = requestAnimationFrame(cuadro);
+      } else {
+        cancelAnimationFrame(idCuadro);
+        clearInterval(idIntervalo);
+        idCuadro = idIntervalo = 0;
+      }
+    }
+
+    new IntersectionObserver(([entrada]) => {
+      visible = entrada.isIntersecting;
+      sincronizar();
+    }).observe(cara.closest(".modelos_vivo"));
+    document.addEventListener("visibilitychange", sincronizar);
+    actualizarReloj();
   }
 
   if (!reducido && "IntersectionObserver" in window) {

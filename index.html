@@ -6,13 +6,10 @@
   <meta name="description" content="Prototipo de hero con una animación de entrada." />
   <title>Taller 1</title>
   <link rel="preload" as="image" href="assets/seda-reflejos.webp" />
-  <link rel="preload" as="fetch" href="assets/model.glb" crossorigin />
-  <link rel="preload" as="fetch" href="assets/studio.hdr" crossorigin />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/caracteristicas.css" />
   <link rel="stylesheet" href="css/modelos.css" />
   <script src="js/vendor/gsap.min.js" defer></script>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>
   <script src="js/script.js" defer></script>
   <script src="js/caracteristicas.js" defer></script>
   <script src="js/fondo-carac.js" defer></script>
@@ -137,9 +134,9 @@
 
       <div class="carac_reloj" role="img" aria-label="Rolex Submariner negro visto de costado: el bisel y el cristal se separan hacia arriba de la caja">
         <div class="carac_escena">
-          <img class="capa capa--base" src="assets/reloj-capas/base.webp" alt="" width="1400" height="479" />
-          <img class="capa capa--bisel" src="assets/reloj-capas/bisel.webp" alt="" width="741" height="335" data-a="0.42" data-b="0.8" />
-          <img class="capa capa--cristal" src="assets/reloj-capas/cristal.webp" alt="" width="585" height="201" data-a="0.12" data-b="0.48" />
+          <img class="capa capa--base" src="assets/reloj-capas/base.webp" alt="" width="1400" height="479" loading="lazy" decoding="async" />
+          <img class="capa capa--bisel" src="assets/reloj-capas/bisel.webp" alt="" width="741" height="335" loading="lazy" decoding="async" data-a="0.42" data-b="0.8" />
+          <img class="capa capa--cristal" src="assets/reloj-capas/cristal.webp" alt="" width="585" height="201" loading="lazy" decoding="async" data-a="0.12" data-b="0.48" />
         </div>
       </div>
 
@@ -158,9 +155,9 @@
       <model-viewer
         id="modelo-3d"
         class="visor-3d_viewer"
-        src="assets/model.glb"
-        environment-image="assets/studio.hdr"
-        loading="eager"
+        src="assets/model.web.glb"
+        environment-image="assets/studio-1k.hdr"
+        loading="lazy"
         reveal="auto"
         alt="Modelo 3D"
         camera-controls
@@ -238,10 +235,10 @@
 
       <div class="modelos_vivo">
         <div class="reloj-vivo" aria-hidden="true">
-          <img class="reloj-vivo_cara" id="reloj-vivo-cara" src="assets/reloj-vivo/base.png" alt="" />
-          <img class="reloj-vivo_manecilla reloj-vivo_hora" id="reloj-vivo-hora" src="assets/reloj-vivo/horarioP.png" alt="" />
-          <img class="reloj-vivo_manecilla reloj-vivo_minuto" id="reloj-vivo-minuto" src="assets/reloj-vivo/minuteroP.png" alt="" />
-          <img class="reloj-vivo_manecilla reloj-vivo_segundo" id="reloj-vivo-segundo" src="assets/reloj-vivo/segunderoP.png" alt="" />
+          <img class="reloj-vivo_cara" id="reloj-vivo-cara" src="assets/reloj-vivo/base.png" alt="" width="814" height="814" loading="lazy" decoding="async" />
+          <img class="reloj-vivo_manecilla reloj-vivo_hora" id="reloj-vivo-hora" src="assets/reloj-vivo/horarioP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
+          <img class="reloj-vivo_manecilla reloj-vivo_minuto" id="reloj-vivo-minuto" src="assets/reloj-vivo/minuteroP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
+          <img class="reloj-vivo_manecilla reloj-vivo_segundo" id="reloj-vivo-segundo" src="assets/reloj-vivo/segunderoP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
         </div>
       </div>
     </div>
@@ -249,31 +246,31 @@
     <ul class="modelos_selector">
       <li>
         <button type="button" class="modelo_opcion activa" style="--tono: #1b1d22" data-modelo="124060" data-base="base.png" data-manecillas="P" data-insignia aria-pressed="true">
-          <img src="assets/modelos/124060.webp" alt="Rolex Submariner 124060 de acero con bisel y esfera negros" width="347" height="560" loading="lazy" />
+          <img src="assets/modelos/miniaturas/124060.webp" alt="Rolex Submariner 124060 de acero con bisel y esfera negros" width="347" height="560" loading="lazy" decoding="async" />
           <span class="modelo_opcion_ref">124060</span>
         </button>
       </li>
       <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1b1d22" data-modelo="126610LN" data-base="baseN.png" data-manecillas="P" aria-pressed="false">
-          <img src="assets/modelos/126610ln.webp" alt="Rolex Submariner Date 126610LN de acero con bisel y esfera negros" width="347" height="560" loading="lazy" />
+        <button type="button" class="modelo_opcion" style="--tono: #1b1d22" data-modelo="126610LN" data-base="baseN.webp" data-manecillas="P" aria-pressed="false">
+          <img src="assets/modelos/miniaturas/126610ln.webp" alt="Rolex Submariner Date 126610LN de acero con bisel y esfera negros" width="347" height="560" loading="lazy" decoding="async" />
           <span class="modelo_opcion_ref">126610LN</span>
         </button>
       </li>
       <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1f6b3a" data-modelo="126610LV" data-base="baseV.png" data-manecillas="P" aria-pressed="false">
-          <img src="assets/modelos/126610lv.webp" alt="Rolex Submariner Date 126610LV de acero con bisel verde y esfera negra" width="347" height="560" loading="lazy" />
+        <button type="button" class="modelo_opcion" style="--tono: #1f6b3a" data-modelo="126610LV" data-base="baseV.webp" data-manecillas="P" aria-pressed="false">
+          <img src="assets/modelos/miniaturas/126610lv.webp" alt="Rolex Submariner Date 126610LV de acero con bisel verde y esfera negra" width="347" height="560" loading="lazy" decoding="async" />
           <span class="modelo_opcion_ref">126610LV</span>
         </button>
       </li>
       <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1f45a8" data-modelo="126619LB" data-base="baseA.png" data-manecillas="P" aria-pressed="false">
-          <img src="assets/modelos/126619lb.webp" alt="Rolex Submariner Date 126619LB de oro blanco con bisel azul y esfera negra" width="347" height="560" loading="lazy" />
+        <button type="button" class="modelo_opcion" style="--tono: #1f45a8" data-modelo="126619LB" data-base="baseA.webp" data-manecillas="P" aria-pressed="false">
+          <img src="assets/modelos/miniaturas/126619lb.webp" alt="Rolex Submariner Date 126619LB de oro blanco con bisel azul y esfera negra" width="347" height="560" loading="lazy" decoding="async" />
           <span class="modelo_opcion_ref">126619LB</span>
         </button>
       </li>
       <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1f45a8; --aro: #c9a54a" data-modelo="126613LB" data-base="baseD.png" data-manecillas="D" aria-pressed="false">
-          <img src="assets/modelos/126613lb.webp" alt="Rolex Submariner Date 126613LB de acero y oro amarillo con bisel y esfera azules" width="347" height="560" loading="lazy" />
+        <button type="button" class="modelo_opcion" style="--tono: #1f45a8; --aro: #c9a54a" data-modelo="126613LB" data-base="baseD.webp" data-manecillas="D" aria-pressed="false">
+          <img src="assets/modelos/miniaturas/126613lb.webp" alt="Rolex Submariner Date 126613LB de acero y oro amarillo con bisel y esfera azules" width="347" height="560" loading="lazy" decoding="async" />
           <span class="modelo_opcion_ref">126613LB</span>
         </button>
       </li>

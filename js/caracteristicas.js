@@ -11,6 +11,9 @@
 
   // Smoothstep suaviza el inicio y el final del movimiento.
   const suavizar = (t) => t * t * (3 - 2 * t);
+  let visible = false;
+  let ultimoProgreso = -1;
+  let ultimoActivo = -1;
 
   function progresoScroll() {
     const rect = seccion.getBoundingClientRect();
@@ -20,6 +23,8 @@
 
   function actualizar() {
     const p = progresoScroll();
+    if (p === ultimoProgreso) return;
+    ultimoProgreso = p;
 
     capas.forEach((capa) => {
       const a = Number(capa.dataset.a);
@@ -31,14 +36,17 @@
     items.forEach((li, i) => {
       if (p >= Number(li.dataset.desde)) activo = i;
     });
-    items.forEach((li, i) => li.classList.toggle("activa", i === activo));
+    if (activo !== ultimoActivo) {
+      items.forEach((li, i) => li.classList.toggle("activa", i === activo));
+      ultimoActivo = activo;
+    }
 
     seccion.style.setProperty("--p", p.toFixed(4));
   }
 
   let pendiente = false;
   function alScroll() {
-    if (pendiente) return;
+    if (!visible || pendiente) return;
     pendiente = true;
     requestAnimationFrame(() => {
       actualizar();
@@ -48,5 +56,8 @@
 
   window.addEventListener("scroll", alScroll, { passive: true });
   window.addEventListener("resize", alScroll);
-  actualizar();
+  new IntersectionObserver(([entrada]) => {
+    visible = entrada.isIntersecting;
+    if (visible) alScroll();
+  }).observe(seccion);
 })();
