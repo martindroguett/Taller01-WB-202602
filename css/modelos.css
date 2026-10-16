@@ -1,0 +1,424 @@
+/* =====================================================================
+   Sección "La colección" (tarjetas de modelos) y pie de página.
+   Todo va acotado bajo .modelos y .pie para no afectar al resto.
+   ===================================================================== */
+
+.modelos {
+  padding: 64px 0 72px;
+  background: #f1efe7;
+  color: #14294a;
+}
+
+.modelos_cabecera {
+  padding: 0 24px;
+  margin-bottom: 28px;
+}
+
+.modelos .etiqueta {
+  color: #1d4f8f;
+}
+
+.modelos_cabecera h2 {
+  margin: 12px 0 10px;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  font-weight: normal;
+  line-height: 1.12;
+}
+
+.modelos_cabecera h2 em {
+  font-style: italic;
+  color: #1d4f8f;
+}
+
+.modelos_cabecera p {
+  margin: 0;
+  max-width: 46ch;
+  color: #4b5d75;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ---------- Carrusel (celular): se desliza de lado y cada tarjeta encaja al centro ---------- */
+.modelos_lista {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 8px 24px 20px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 24px;
+  scrollbar-width: none;
+}
+
+.modelos_lista::-webkit-scrollbar {
+  display: none;
+}
+
+.modelo {
+  /* --tono: color del bisel de cada modelo (lo pone el HTML) */
+  --tono: #1b1d22;
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  flex: 0 0 72%;
+  scroll-snap-align: start;
+  padding: 18px 18px 22px;
+  border-radius: 14px;
+  background: #fbfaf6;
+  border: 1px solid rgba(20, 41, 74, 0.08);
+  box-shadow: 0 1px 2px rgba(20, 41, 74, 0.04);
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+/* halo del color del bisel, detrás del reloj */
+.modelo_foto {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 347 / 560;
+  perspective: 700px;
+  /* perspective aísla este bloque: el multiply de la foto se mezcla solo con lo que hay aquí dentro,
+     así que necesita su propio fondo (el mismo de la tarjeta) para que el blanco desaparezca */
+  background: #fbfaf6;
+}
+
+.modelo_foto::before {
+  content: "";
+  position: absolute;
+  inset: 8% -4%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--tono) 45%, transparent);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.modelo_foto img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  /* multiply: el fondo blanco de la foto desaparece sobre la tarjeta y el halo */
+  mix-blend-mode: multiply;
+  /* al girar en 3D, el borde de la foto puede dejar una línea clara: se recortan 2 px de orilla */
+  clip-path: inset(2px);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.modelo_insignia {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #14294a;
+  color: #f1efe7;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.modelo_bisel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 6px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #4b5d75;
+  text-transform: uppercase;
+}
+
+.modelo_bisel::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tono);
+  box-shadow: 0 0 0 2px #fbfaf6, 0 0 0 3px var(--aro, rgba(20, 41, 74, 0.25));
+}
+
+.modelo h3 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+.modelo_ref {
+  margin: 4px 0 0;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #1d4f8f;
+}
+
+/* detalle que se despliega al activar la tarjeta */
+.modelo_detalle {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+
+.modelo_detalle > p {
+  overflow: hidden;
+  margin: 0;
+  color: #4b5d75;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.modelo_detalle > p::before {
+  content: "";
+  display: block;
+  height: 10px;
+}
+
+/* ---------- Estado activo: hover (con mouse), foco (teclado) o toque (.activa) ---------- */
+.modelo.activa,
+.modelo:focus-visible {
+  border-color: rgba(29, 79, 143, 0.35);
+  box-shadow: 0 18px 40px -18px rgba(16, 40, 74, 0.45);
+  transform: translateY(-6px);
+}
+
+.modelo.activa .modelo_foto::before,
+.modelo:focus-visible .modelo_foto::before {
+  opacity: 0.32;
+  transform: scale(1);
+}
+
+.modelo.activa .modelo_detalle,
+.modelo:focus-visible .modelo_detalle {
+  grid-template-rows: 1fr;
+}
+
+@media (hover: hover) {
+  .modelo:hover {
+    border-color: rgba(29, 79, 143, 0.35);
+    box-shadow: 0 18px 40px -18px rgba(16, 40, 74, 0.45);
+    transform: translateY(-6px);
+  }
+
+  .modelo:hover .modelo_foto::before {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+
+  .modelo:hover .modelo_detalle {
+    grid-template-rows: 1fr;
+  }
+
+  /* mientras se mueve el puntero, el giro sigue al mouse sin retraso */
+  .modelo.siguiendo .modelo_foto img {
+    transition-duration: 0.12s;
+  }
+}
+
+/* ---------- Entrada escalonada al aparecer en pantalla (js/modelos.js agrega .visible) ---------- */
+.modelos_lista.preparada .modelo {
+  opacity: 0;
+  translate: 0 28px;
+  transition: opacity 0.6s ease, translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s, 0s;
+}
+
+.modelos_lista.preparada.visible .modelo {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.modelos_pista {
+  margin: 4px 24px 0;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #4b5d75;
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 768px) {
+  .modelos_cabecera {
+    padding: 0 7%;
+  }
+
+  .modelos_cabecera h2 {
+    font-size: clamp(32px, 3.4vw, 48px);
+  }
+
+  .modelos_lista {
+    padding: 8px 7% 20px;
+    scroll-padding: 0 7%;
+  }
+
+  .modelos_pista {
+    margin: 4px 7% 0;
+  }
+
+  .modelo {
+    flex-basis: 38%;
+  }
+}
+
+/* ---------- Escritorio: las 5 tarjetas a la vista ---------- */
+@media (min-width: 1024px) {
+  .modelos {
+    padding: 96px 0;
+  }
+
+  .modelos_lista {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    overflow: visible;
+  }
+
+  .modelos_pista {
+    display: none;
+  }
+}
+
+/* =====================================================================
+   Pie de página
+   (tu styles.css tiene una regla global "footer { position: absolute }" para el pie del hero;
+    la clase .pie la anula aquí)
+   ===================================================================== */
+.pie {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  text-align: left;
+  font-size: 14px;
+  letter-spacing: normal;
+  color: #cfd9e6;
+  /* los primeros píxeles en crema evitan una línea oscura de 1 px en la unión con la sección de arriba */
+  background: linear-gradient(180deg, #f1efe7 3px, #0a1a30 3px);
+  padding: 0 0 28px;
+}
+
+/* ola que une la sección clara con el pie oscuro (de borde a borde) */
+.pie_ola {
+  display: block;
+  width: 100%;
+  height: 46px;
+  background: #f1efe7;
+  fill: #0a1a30;
+}
+
+.pie_contenido {
+  display: grid;
+  gap: 32px;
+  padding: 36px 24px 32px;
+}
+
+.pie_marca {
+  margin: 0 0 10px;
+  font-family: Georgia, serif;
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: #f1efe7;
+}
+
+.pie_lema {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #9fb2cc;
+}
+
+.pie h3 {
+  margin: 0 0 14px;
+  font-size: 9px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  color: #7f98bb;
+}
+
+.pie ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.pie a {
+  color: #e7edf5;
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.3s ease, color 0.3s ease;
+}
+
+.pie a:hover,
+.pie a:focus-visible {
+  color: #fff;
+  background-size: 100% 1px;
+}
+
+.pie_datos li {
+  color: #9fb2cc;
+}
+
+.pie_base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 24px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(207, 217, 230, 0.15);
+  font-size: 11px;
+  line-height: 1.6;
+  color: #7f98bb;
+}
+
+.pie_base p {
+  margin: 0;
+  max-width: 70ch;
+}
+
+.pie_arriba {
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .pie {
+    padding-bottom: 32px;
+  }
+
+  .pie_ola {
+    height: 60px;
+  }
+
+  .pie_contenido {
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 48px;
+    padding: 48px 7% 40px;
+  }
+
+  .pie_base {
+    margin: 0 7%;
+  }
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .modelo,
+  .modelo_foto img,
+  .modelo_foto::before,
+  .modelo_detalle,
+  .pie a {
+    transition: none;
+  }
+
+  .modelos_lista.preparada .modelo {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}

@@ -48,6 +48,8 @@
   margin: 0;
   padding: 0;
   position: relative;
+  /* en celular se ve una característica a la vez: un alto fijo evita que el reloj salte cuando cambia el largo del texto */
+  min-height: 130px;
 }
 
 .carac_lista li {
@@ -94,15 +96,16 @@
   /* ancho del lienzo donde se apilan las capas (la foto original mide 1400 x 600) */
   --cw: 150vw;
   position: relative;
-  flex: 1;
-  min-height: 0;
+  /* en celular el reloj va justo bajo el texto; su alto = el reloj (0,43 del ancho) + espacio para que suban las capas */
+  flex: none;
+  height: calc(var(--cw) * 0.47);
   margin: 0 -24px;
 }
 
 .carac_escena {
   position: absolute;
   left: 50%;
-  bottom: 6%;
+  bottom: 0;
   width: var(--cw);
   aspect-ratio: 1400 / 600;
   transform: translateX(-50%);
@@ -119,9 +122,13 @@
 }
 
 /* posición de cada pieza dentro del lienzo de 1400 x 600 (viene de recortar la foto) */
-.capa--base    { left: 0;        top: 6%;    width: 100%;    z-index: 1; }
-.capa--bisel   { left: 22.79%;   top: 6.5%;  width: 54.5%;   z-index: 2; --alza: 0.04; }
-.capa--cristal { left: 29.43%;   top: 10%;   width: 41.21%;  z-index: 3; --alza: 0.095; }
+.capa--base    { left: 0;        top: 6%;    width: 100%;    z-index: 1;
+  /* la foto corta el brazalete en los bordes: en vez de un corte recto, los extremos se desvanecen */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 12%, #000 27%, #000 73%, rgba(0, 0, 0, 0.35) 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 12%, #000 27%, #000 73%, rgba(0, 0, 0, 0.35) 88%, transparent 100%);
+}
+.capa--bisel   { left: 22.857%;  top: 6.167%; width: 52.929%; z-index: 2; --alza: 0.04; }
+.capa--cristal { left: 28.429%;  top: 9.333%; width: 41.786%; z-index: 3; --alza: 0.095; }
 
 .carac_progreso {
   position: absolute;
@@ -167,6 +174,10 @@
 
   .carac_texto {
     flex: 0 0 min(340px, 30%);
+  }
+
+  .carac_lista {
+    min-height: 0;
   }
 
   .carac_texto h2 {
@@ -223,18 +234,51 @@
 /* =====================================================================
    Animación de fondo: "inmersión"
    1) haces de luz que se mecen (CSS)   2) burbujas (canvas, js/fondo-carac.js)
-   3) el agua se tiñe con la profundidad (--p) y un profundímetro cuenta de 0 a 300 m
+   3) el agua sube con el scroll (--p), con olas en vaivén, y un profundímetro cuenta de 0 a 300 m
    ===================================================================== */
 
-/* El fondo se va tiñendo de azul agua a medida que avanza el scroll (--p de 0 a 1) */
 .carac_escenario {
-  background: #f1efe7;
-  background: linear-gradient(
-    180deg,
-    #f4f2ea 0%,
-    #f1efe7 40%,
-    color-mix(in srgb, #f1efe7, #c2d0e2 calc(var(--p, 0) * 70%)) 100%
-  );
+  background: linear-gradient(180deg, #f4f2ea 0%, #f1efe7 100%);
+}
+
+/* Agua que sube con el scroll: el nivel va del 12% al 62% del alto según --p (0 a 1) */
+.carac_agua {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(12% + var(--p, 0) * 50%);
+  z-index: 0;
+  pointer-events: none;
+  /* cuerpo del agua: más profundo (oscuro) hacia abajo */
+  background: linear-gradient(180deg, rgba(36, 98, 178, 0.15) 0%, rgba(16, 40, 74, 0.28) 100%);
+}
+
+/* Cada ola es el doble de ancha que la pantalla y se desplaza medio ancho: como el dibujo se repite, el bucle no se nota */
+.ola {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  pointer-events: none;
+}
+
+.ola--frente {
+  bottom: 100%; /* apoyada justo sobre el cuerpo del agua (mismo color, así se ven como una sola pieza) */
+  height: 34px;
+  fill: rgba(36, 98, 178, 0.15);
+  animation: carac-ola 9s linear infinite;
+}
+
+.ola--atras {
+  bottom: calc(100% + 6px);
+  height: 30px;
+  fill: rgba(36, 98, 178, 0.08);
+  animation: carac-ola 14s linear infinite reverse;
+}
+
+@keyframes carac-ola {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* Haces de luz: franjas claras y difusas que se mecen, como el sol filtrándose en el agua */
@@ -314,7 +358,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .carac_escenario::before {
+  .carac_escenario::before,
+  .ola {
     animation: none;
     opacity: 0.7;
   }
