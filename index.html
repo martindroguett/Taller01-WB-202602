@@ -6,6 +6,8 @@
   <meta name="description" content="Prototipo de hero con una animación de entrada." />
   <title>Taller 1</title>
   <link rel="preload" as="image" href="assets/seda-reflejos.webp" />
+  <link rel="preload" as="fetch" href="assets/model.glb" crossorigin />
+  <link rel="preload" as="fetch" href="assets/studio.hdr" crossorigin />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/caracteristicas.css" />
   <link rel="stylesheet" href="css/modelos.css" />
@@ -23,6 +25,7 @@
       <nav class="hero-nav" aria-label="Navegación principal">
         <a href="#inicio" aria-current="location">El icono</a>
         <a href="#caracteristicas">El detalle</a>
+        <a href="#vista-3d">Vista 3D</a>
         <a href="#modelos">La colección</a>
       </nav>
       <span class="hero-referencia">SUBMARINER · 124060</span>
@@ -144,11 +147,11 @@
     </div>
   </section>
 
-  <section class="panel-3d" aria-labelledby="titulo-3d">
+  <section id="vista-3d" class="panel-3d" aria-labelledby="titulo-3d">
     <div class="panel-3d_texto">
       <p class="etiqueta">VISTA INTERACTIVA</p>
-      <h2 id="titulo-3d">Explora el modelo en<br /><em>3D</em></h2>
-      <p class="descripcion">arrastra o desliza</p>
+      <h2 id="titulo-3d">Explora el <em>Submariner</em></h2>
+      <p class="descripcion">Conoce por completo el Submariner Date con nuestro modelo <b>3D</b></p>
     </div>
 
     <div class="visor-3d">
@@ -157,6 +160,8 @@
         class="visor-3d_viewer"
         src="assets/model.glb"
         environment-image="assets/studio.hdr"
+        loading="eager"
+        reveal="auto"
         alt="Modelo 3D"
         camera-controls
         interaction-prompt="none"
@@ -170,84 +175,109 @@
       >
         <div class="visor-3d_carga" slot="poster">Cargando modelo…</div>
       </model-viewer>
-
-      <div class="visor-3d_controles">
-        <button type="button" id="boton-reset-vista">Restablecer vista</button>
-      </div>
     </div>
   </section>
 
   <section id="modelos" class="modelos" aria-labelledby="titulo-modelos">
     <div class="modelos_cabecera">
-      <p class="etiqueta">LA COLECCIÓN</p>
+      <div class="modelos_etiqueta">
+        <p class="etiqueta">LA COLECCIÓN</p>
+        <span class="modelo_insignia visible" id="insignia-modelo">ESTE MODELO</span>
+      </div>
       <h2 id="titulo-modelos">Un mismo espíritu,<br /><em>cinco caracteres</em></h2>
-      <p>El Submariner se ofrece en distintos materiales y colores de bisel. Pasa el cursor o toca un modelo para ver su detalle.</p>
+      <p>El Submariner se ofrece en distintos materiales y colores de bisel. Elige un modelo para ver su detalle.</p>
     </div>
 
-    <ul class="modelos_lista">
-      <li class="modelo" style="--tono: #1b1d22" tabindex="0" aria-expanded="false">
-        <span class="modelo_insignia">ESTE MODELO</span>
-        <div class="modelo_foto">
+    <div class="modelos_panel">
+      <div class="modelos_info">
+        <div class="modelo_info" data-modelo="124060" style="--tono: #1b1d22">
+          <p class="modelo_bisel">Bisel negro</p>
+          <h3>Submariner</h3>
+          <p class="modelo_ref">REF. 124060</p>
+          <div class="modelo_detalle">
+            <p>Oystersteel, esfera negra y sin fecha. Calibre 3230: el modelo que presenta esta página.</p>
+          </div>
+        </div>
+
+        <div class="modelo_info" data-modelo="126610LN" style="--tono: #1b1d22" hidden>
+          <p class="modelo_bisel">Bisel negro</p>
+          <h3>Submariner Date</h3>
+          <p class="modelo_ref">REF. 126610LN</p>
+          <div class="modelo_detalle">
+            <p>Oystersteel y esfera negra, con ventana de fecha a las 3 y calibre 3235.</p>
+          </div>
+        </div>
+
+        <div class="modelo_info" data-modelo="126610LV" style="--tono: #1f6b3a" hidden>
+          <p class="modelo_bisel">Bisel verde</p>
+          <h3>Submariner Date</h3>
+          <p class="modelo_ref">REF. 126610LV</p>
+          <div class="modelo_detalle">
+            <p>Oystersteel con bisel Cerachrom verde y esfera negra.</p>
+          </div>
+        </div>
+
+        <div class="modelo_info" data-modelo="126619LB" style="--tono: #1f45a8" hidden>
+          <p class="modelo_bisel">Bisel azul</p>
+          <h3>Submariner Date</h3>
+          <p class="modelo_ref">REF. 126619LB</p>
+          <div class="modelo_detalle">
+            <p>Oro blanco de 18 quilates, bisel Cerachrom azul y esfera negra.</p>
+          </div>
+        </div>
+
+        <div class="modelo_info" data-modelo="126613LB" style="--tono: #1f45a8; --aro: #c9a54a" hidden>
+          <p class="modelo_bisel">Bisel azul · Rolesor</p>
+          <h3>Submariner Date</h3>
+          <p class="modelo_ref">REF. 126613LB</p>
+          <div class="modelo_detalle">
+            <p>Rolesor amarillo (Oystersteel y oro amarillo), con bisel y esfera azules.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modelos_vivo">
+        <div class="reloj-vivo" aria-hidden="true">
+          <img class="reloj-vivo_cara" id="reloj-vivo-cara" src="assets/reloj-vivo/base.png" alt="" />
+          <img class="reloj-vivo_manecilla reloj-vivo_hora" id="reloj-vivo-hora" src="assets/reloj-vivo/horarioP.png" alt="" />
+          <img class="reloj-vivo_manecilla reloj-vivo_minuto" id="reloj-vivo-minuto" src="assets/reloj-vivo/minuteroP.png" alt="" />
+          <img class="reloj-vivo_manecilla reloj-vivo_segundo" id="reloj-vivo-segundo" src="assets/reloj-vivo/segunderoP.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <ul class="modelos_selector">
+      <li>
+        <button type="button" class="modelo_opcion activa" style="--tono: #1b1d22" data-modelo="124060" data-base="base.png" data-manecillas="P" data-insignia aria-pressed="true">
           <img src="assets/modelos/124060.webp" alt="Rolex Submariner 124060 de acero con bisel y esfera negros" width="347" height="560" loading="lazy" />
-        </div>
-        <p class="modelo_bisel">Bisel negro</p>
-        <h3>Submariner</h3>
-        <p class="modelo_ref">REF. 124060</p>
-        <div class="modelo_detalle">
-          <p>Oystersteel, esfera negra y sin fecha. Calibre 3230: el modelo que presenta esta página.</p>
-        </div>
+          <span class="modelo_opcion_ref">124060</span>
+        </button>
       </li>
-
-      <li class="modelo" style="--tono: #1b1d22" tabindex="0" aria-expanded="false">
-        <div class="modelo_foto">
+      <li>
+        <button type="button" class="modelo_opcion" style="--tono: #1b1d22" data-modelo="126610LN" data-base="baseN.png" data-manecillas="P" aria-pressed="false">
           <img src="assets/modelos/126610ln.webp" alt="Rolex Submariner Date 126610LN de acero con bisel y esfera negros" width="347" height="560" loading="lazy" />
-        </div>
-        <p class="modelo_bisel">Bisel negro</p>
-        <h3>Submariner Date</h3>
-        <p class="modelo_ref">REF. 126610LN</p>
-        <div class="modelo_detalle">
-          <p>Oystersteel y esfera negra, con ventana de fecha a las 3 y calibre 3235.</p>
-        </div>
+          <span class="modelo_opcion_ref">126610LN</span>
+        </button>
       </li>
-
-      <li class="modelo" style="--tono: #1f6b3a" tabindex="0" aria-expanded="false">
-        <div class="modelo_foto">
+      <li>
+        <button type="button" class="modelo_opcion" style="--tono: #1f6b3a" data-modelo="126610LV" data-base="baseV.png" data-manecillas="P" aria-pressed="false">
           <img src="assets/modelos/126610lv.webp" alt="Rolex Submariner Date 126610LV de acero con bisel verde y esfera negra" width="347" height="560" loading="lazy" />
-        </div>
-        <p class="modelo_bisel">Bisel verde</p>
-        <h3>Submariner Date</h3>
-        <p class="modelo_ref">REF. 126610LV</p>
-        <div class="modelo_detalle">
-          <p>Oystersteel con bisel Cerachrom verde y esfera negra.</p>
-        </div>
+          <span class="modelo_opcion_ref">126610LV</span>
+        </button>
       </li>
-
-      <li class="modelo" style="--tono: #1f45a8" tabindex="0" aria-expanded="false">
-        <div class="modelo_foto">
+      <li>
+        <button type="button" class="modelo_opcion" style="--tono: #1f45a8" data-modelo="126619LB" data-base="baseA.png" data-manecillas="P" aria-pressed="false">
           <img src="assets/modelos/126619lb.webp" alt="Rolex Submariner Date 126619LB de oro blanco con bisel azul y esfera negra" width="347" height="560" loading="lazy" />
-        </div>
-        <p class="modelo_bisel">Bisel azul</p>
-        <h3>Submariner Date</h3>
-        <p class="modelo_ref">REF. 126619LB</p>
-        <div class="modelo_detalle">
-          <p>Oro blanco de 18 quilates, bisel Cerachrom azul y esfera negra.</p>
-        </div>
+          <span class="modelo_opcion_ref">126619LB</span>
+        </button>
       </li>
-
-      <li class="modelo" style="--tono: #1f45a8; --aro: #c9a54a" tabindex="0" aria-expanded="false">
-        <div class="modelo_foto">
+      <li>
+        <button type="button" class="modelo_opcion" style="--tono: #1f45a8; --aro: #c9a54a" data-modelo="126613LB" data-base="baseD.png" data-manecillas="D" aria-pressed="false">
           <img src="assets/modelos/126613lb.webp" alt="Rolex Submariner Date 126613LB de acero y oro amarillo con bisel y esfera azules" width="347" height="560" loading="lazy" />
-        </div>
-        <p class="modelo_bisel">Bisel azul · Rolesor</p>
-        <h3>Submariner Date</h3>
-        <p class="modelo_ref">REF. 126613LB</p>
-        <div class="modelo_detalle">
-          <p>Rolesor amarillo (Oystersteel y oro amarillo), con bisel y esfera azules.</p>
-        </div>
+          <span class="modelo_opcion_ref">126613LB</span>
+        </button>
       </li>
     </ul>
-
-    <p class="modelos_pista" aria-hidden="true">DESLIZA PARA VER MÁS →</p>
   </section>
 
   <footer class="pie">
@@ -266,6 +296,7 @@
         <ul>
           <li><a href="#">Inicio</a></li>
           <li><a href="#caracteristicas">Características</a></li>
+          <li><a href="#vista-3d">Vista 3D</a></li>
           <li><a href="#modelos">La colección</a></li>
         </ul>
       </nav>
