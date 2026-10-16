@@ -1,9 +1,52 @@
-if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+const tela = document.getElementById("tela");
+const telaFinal = document.getElementById("tela-final");
+const dFinalMovil = telaFinal.getAttribute("d");
+const movimientoReducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let animacionEntrada;
+
+function ajustarTelaAlReloj() {
+  let dFinal = dFinalMovil;
+
+  if (window.innerWidth > 767) {
+    const rectTela = document.querySelector(".cortina").getBoundingClientRect();
+    const rectReloj = document.getElementById("reloj").getBoundingClientRect();
+    const escalaX = 1200 / rectTela.width;
+    const escalaY = 800 / rectTela.height;
+    const saliente = rectReloj.width * 0.03;
+    // El WebP mide 800 × 1180; el brazalete visible ocupa las filas 152 a 920.
+    const arriba = (rectReloj.top - rectTela.top + rectReloj.height * 152 / 1180 + saliente) * escalaY;
+    const abajo = (rectReloj.top - rectTela.top + rectReloj.height * 920 / 1180 - saliente) * escalaY;
+    const centro = (rectReloj.left + rectReloj.width / 2 - rectTela.left) * escalaX;
+    const dx = centro - 876;
+    const da = arriba - 215;
+    const db = abajo - 565;
+    const n = (valor) => Math.round(valor * 10) / 10;
+    const x = (valor) => n(valor + dx);
+
+    dFinal = `M -80 -20 C 200 -20 ${x(480)} -10 ${x(640)} ${n(55 + da * 0.3)}
+      C ${x(745)} ${n(100 + da * 0.5)} ${x(810)} ${n(arriba)} ${n(centro)} ${n(arriba)}
+      C ${x(940)} ${n(arriba)} ${x(995)} ${n(90 + da * 0.5)} 1280 -20
+      L 1280 820 C ${x(995)} ${n(700 + db * 0.45)} ${x(940)} ${n(abajo)} ${n(centro)} ${n(abajo)}
+      C ${x(810)} ${n(abajo)} ${x(745)} ${n(675 + db * 0.45)} ${x(640)} ${n(715 + db * 0.35)}
+      C ${x(480)} ${n(770 + db * 0.1)} 200 760 -80 730 Z`;
+  }
+
+  telaFinal.setAttribute("d", dFinal);
+  if (!animacionEntrada || !animacionEntrada.isActive()) tela.setAttribute("d", dFinal);
+  return dFinal;
+}
+
+const dFinal = ajustarTelaAlReloj();
+window.addEventListener("resize", ajustarTelaAlReloj, { passive: true });
+
+if (window.gsap && !movimientoReducido) {
   const dDelgada = document.getElementById("tela-delgada").getAttribute("d");
   const dInflada = document.getElementById("tela-inflada").getAttribute("d");
-  const dFinal = document.getElementById("tela-final").getAttribute("d");
 
-  gsap.timeline({ defaults: { ease: "power3.inOut" } })
+  animacionEntrada = gsap.timeline({
+    defaults: { ease: "power3.inOut" },
+    onComplete: () => tela.setAttribute("d", telaFinal.getAttribute("d"))
+  })
     .set("#tela", { attr: { d: dDelgada } })
     .set("#pliegues", { opacity: 0, scaleY: 0.25 })
     .fromTo(
