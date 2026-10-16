@@ -61,10 +61,79 @@ if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matche
 const seccionesNavegacion = ["inicio", "caracteristicas", "vista-3d", "modelos"]
   .map((id) => document.getElementById(id))
   .filter(Boolean);
-const enlacesNavegacion = [...document.querySelectorAll(".hero-nav a[href^='#']")];
+const navegacion = document.querySelector(".site-nav");
+const botonMenu = navegacion.querySelector(".site-nav-toggle");
+const listaNavegacion = navegacion.querySelector(".site-nav-links");
+const seccionMenu = navegacion.querySelector(".site-nav-current");
+const vistaMovil = window.matchMedia("(max-width: 767px)");
+const enlacesNavegacion = [...navegacion.querySelectorAll("a[href^='#']")];
 const destinoInicial = seccionesNavegacion.find((seccion) => `#${seccion.id}` === window.location.hash);
 let navegacionLista = !destinoInicial;
 let cuadroScrollPendiente = 0;
+let temporizadorNavegacion = 0;
+let navegacionPorTeclado = false;
+let menuAbierto = false;
+
+function cambiarMenuNavegacion(abrir, devolverFoco = false) {
+  menuAbierto = vistaMovil.matches && abrir;
+  botonMenu.setAttribute("aria-expanded", String(menuAbierto));
+  navegacion.classList.toggle("is-open", menuAbierto);
+  listaNavegacion.inert = vistaMovil.matches && !menuAbierto;
+
+  if (menuAbierto) {
+    window.clearTimeout(temporizadorNavegacion);
+    temporizadorNavegacion = 0;
+    mostrarNavegacion(true);
+  }
+  if (devolverFoco) botonMenu.focus({ preventScroll: true });
+}
+
+function ajustarMenuMovil() {
+  const focoEnBoton = document.activeElement === botonMenu;
+  const focoEnLista = listaNavegacion.contains(document.activeElement);
+  botonMenu.hidden = !vistaMovil.matches;
+  navegacion.classList.toggle("is-collapsible", vistaMovil.matches);
+  cambiarMenuNavegacion(false);
+
+  if (vistaMovil.matches && focoEnLista) botonMenu.focus({ preventScroll: true });
+  else if (!vistaMovil.matches && focoEnBoton) {
+    navegacion.querySelector("a[aria-current]")?.focus({ preventScroll: true });
+  }
+}
+
+function paginaDesplazada() {
+  return window.scrollY > 0;
+}
+
+function mostrarNavegacion(mostrar) {
+  const flotante = paginaDesplazada();
+  navegacion.classList.toggle("is-floating", flotante);
+  navegacion.classList.toggle("is-visible", flotante && mostrar);
+  navegacion.inert = flotante && !mostrar;
+}
+
+function alScrollNavegacion() {
+  window.clearTimeout(temporizadorNavegacion);
+  temporizadorNavegacion = 0;
+  if (menuAbierto) {
+    cambiarMenuNavegacion(false, navegacionPorTeclado && listaNavegacion.contains(document.activeElement));
+  }
+
+  if (!paginaDesplazada()) {
+    mostrarNavegacion(false);
+  } else if (navegacionPorTeclado && navegacion.contains(document.activeElement)) {
+    mostrarNavegacion(true);
+  } else {
+    navegacionPorTeclado = false;
+    mostrarNavegacion(false);
+    temporizadorNavegacion = window.setTimeout(() => {
+      temporizadorNavegacion = 0;
+      if (paginaDesplazada()) mostrarNavegacion(true);
+    }, 220);
+  }
+
+  programarActualizacionSeccion();
+}
 
 function actualizarSeccionNavegacion() {
   cuadroScrollPendiente = 0;
@@ -86,8 +155,10 @@ function actualizarSeccionNavegacion() {
   }
 
   enlacesNavegacion.forEach((enlace) => {
-    if (enlace.hash === fragmento) enlace.setAttribute("aria-current", "location");
-    else enlace.removeAttribute("aria-current");
+    if (enlace.hash === fragmento) {
+      enlace.setAttribute("aria-current", "location");
+      seccionMenu.textContent = enlace.textContent;
+    } else enlace.removeAttribute("aria-current");
   });
 }
 
@@ -98,14 +169,42 @@ function programarActualizacionSeccion() {
   }
 }
 
-window.addEventListener("scroll", programarActualizacionSeccion, { passive: true });
-window.addEventListener("resize", programarActualizacionSeccion);
+ajustarMenuMovil();
+vistaMovil.addEventListener("change", ajustarMenuMovil);
+botonMenu.addEventListener("click", () => cambiarMenuNavegacion(!menuAbierto));
+listaNavegacion.addEventListener("click", (evento) => {
+  if (menuAbierto && evento.target.closest("a")) cambiarMenuNavegacion(false, true);
+});
+navegacion.addEventListener("focusout", (evento) => {
+  if (menuAbierto && !navegacion.contains(evento.relatedTarget)) cambiarMenuNavegacion(false);
+});
+window.addEventListener("scroll", alScrollNavegacion, { passive: true });
+window.addEventListener("resize", alScrollNavegacion);
+window.addEventListener("keydown", (evento) => {
+  if (evento.key === "Escape" && menuAbierto) {
+    evento.preventDefault();
+    cambiarMenuNavegacion(false, true);
+  }
+  if (evento.key === "Tab") {
+    navegacionPorTeclado = true;
+    if (paginaDesplazada()) {
+      window.clearTimeout(temporizadorNavegacion);
+      temporizadorNavegacion = 0;
+      mostrarNavegacion(true);
+    }
+  }
+});
+window.addEventListener("pointerdown", (evento) => {
+  navegacionPorTeclado = false;
+  if (menuAbierto && !navegacion.contains(evento.target)) cambiarMenuNavegacion(false);
+}, { passive: true });
 window.addEventListener("pageshow", () => {
   // Conservar los enlaces directos antes de sincronizar el hash con el scroll.
   if (!navegacionLista) {
     navegacionLista = true;
     destinoInicial.scrollIntoView({ behavior: "instant" });
   }
+  mostrarNavegacion(true);
   programarActualizacionSeccion();
 });
 

@@ -16,15 +16,23 @@
   <script src="js/modelos.js" defer></script>
 </head>
 <body>
+  <nav class="site-nav" aria-label="Navegación principal">
+    <button class="site-nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-links" hidden>
+      <span class="site-nav-current" aria-hidden="true">Inicio</span>
+      <span>Menú</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+    </button>
+    <div class="site-nav-links" id="site-nav-links">
+      <a href="#inicio" aria-current="location">Inicio</a>
+      <a href="#caracteristicas">Detalles</a>
+      <a href="#vista-3d">Vista 3D</a>
+      <a href="#modelos">Modelos</a>
+    </div>
+  </nav>
+
   <main id="inicio" class="hero" aria-labelledby="hero-title">
     <header class="hero-cabecera">
       <a class="marca" href="#inicio" aria-label="Rolex, inicio">ROLEX<small>OYSTER PERPETUAL</small></a>
-      <nav class="hero-nav" aria-label="Navegación principal">
-        <a href="#inicio" aria-current="location">El icono</a>
-        <a href="#caracteristicas">El detalle</a>
-        <a href="#vista-3d">Vista 3D</a>
-        <a href="#modelos">La colección</a>
-      </nav>
       <span class="hero-referencia">SUBMARINER · 124060</span>
     </header>
 
@@ -291,10 +299,10 @@
       <nav aria-label="Secciones">
         <h3>SECCIONES</h3>
         <ul>
-          <li><a href="#">Inicio</a></li>
-          <li><a href="#caracteristicas">Características</a></li>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#caracteristicas">Detalles</a></li>
           <li><a href="#vista-3d">Vista 3D</a></li>
-          <li><a href="#modelos">La colección</a></li>
+          <li><a href="#modelos">Modelos</a></li>
         </ul>
       </nav>
 
@@ -302,7 +310,7 @@
 
     <div class="pie_base">
       <p>Proyecto académico sin fines comerciales. Rolex, Submariner, Oyster, Oystersteel, Cerachrom y Rolesor son marcas de Rolex SA; las imágenes se usan con fines educativos.</p>
-      <a class="pie_arriba" href="#">Volver arriba ↑</a>
+      <a class="pie_arriba" href="#inicio">Volver arriba ↑</a>
     </div>
   </footer>
 </body>

@@ -459,6 +459,12 @@
   white-space: nowrap;
 }
 
+@media (max-width: 767px) {
+  .pie {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+}
+
 @media (min-width: 768px) {
   .pie {
     padding-bottom: 32px;
