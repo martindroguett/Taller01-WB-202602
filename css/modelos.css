@@ -1,8 +1,3 @@
-/* =====================================================================
-   Sección "La colección" (tarjetas de modelos) y pie de página.
-   Todo va acotado bajo .modelos y .pie para no afectar al resto.
-   ===================================================================== */
-
 .modelos {
   padding: 64px 0 72px;
   background: #f1efe7;
@@ -39,7 +34,6 @@
   line-height: 1.7;
 }
 
-/* ---------- Carrusel (celular): se desliza de lado y cada tarjeta encaja al centro ---------- */
 .modelos_lista {
   display: flex;
   gap: 16px;
@@ -57,7 +51,7 @@
 }
 
 .modelo {
-  /* --tono: color del bisel de cada modelo (lo pone el HTML) */
+  /* --tono se define en cada tarjeta del HTML. */
   --tono: #1b1d22;
   --rx: 0deg;
   --ry: 0deg;
@@ -74,15 +68,13 @@
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-/* halo del color del bisel, detrás del reloj */
 .modelo_foto {
   position: relative;
   display: grid;
   place-items: center;
   aspect-ratio: 347 / 560;
   perspective: 700px;
-  /* perspective aísla este bloque: el multiply de la foto se mezcla solo con lo que hay aquí dentro,
-     así que necesita su propio fondo (el mismo de la tarjeta) para que el blanco desaparezca */
+  /* El fondo permite aplicar multiply sin perder el color de la tarjeta. */
   background: #fbfaf6;
 }
 
@@ -102,9 +94,7 @@
   display: block;
   width: 100%;
   height: auto;
-  /* multiply: el fondo blanco de la foto desaparece sobre la tarjeta y el halo */
   mix-blend-mode: multiply;
-  /* al girar en 3D, el borde de la foto puede dejar una línea clara: se recortan 2 px de orilla */
   clip-path: inset(2px);
   transform: rotateX(var(--rx)) rotateY(var(--ry));
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -157,7 +147,6 @@
   color: #1d4f8f;
 }
 
-/* detalle que se despliega al activar la tarjeta */
 .modelo_detalle {
   display: grid;
   grid-template-rows: 0fr;
@@ -178,7 +167,6 @@
   height: 10px;
 }
 
-/* ---------- Estado activo: hover (con mouse), foco (teclado) o toque (.activa) ---------- */
 .modelo.activa,
 .modelo:focus-visible {
   border-color: rgba(29, 79, 143, 0.35);
@@ -213,13 +201,11 @@
     grid-template-rows: 1fr;
   }
 
-  /* mientras se mueve el puntero, el giro sigue al mouse sin retraso */
   .modelo.siguiendo .modelo_foto img {
     transition-duration: 0.12s;
   }
 }
 
-/* ---------- Entrada escalonada al aparecer en pantalla (js/modelos.js agrega .visible) ---------- */
 .modelos_lista.preparada .modelo {
   opacity: 0;
   translate: 0 28px;
@@ -240,7 +226,6 @@
   color: #4b5d75;
 }
 
-/* ---------- Tablet ---------- */
 @media (min-width: 768px) {
   .modelos_cabecera {
     padding: 0 7%;
@@ -264,7 +249,6 @@
   }
 }
 
-/* ---------- Escritorio: las 5 tarjetas a la vista ---------- */
 @media (min-width: 1024px) {
   .modelos {
     padding: 96px 0;
@@ -282,11 +266,6 @@
   }
 }
 
-/* =====================================================================
-   Pie de página
-   (tu styles.css tiene una regla global "footer { position: absolute }" para el pie del hero;
-    la clase .pie la anula aquí)
-   ===================================================================== */
 .pie {
   position: relative;
   inset: auto;
@@ -295,12 +274,10 @@
   font-size: 14px;
   letter-spacing: normal;
   color: #cfd9e6;
-  /* los primeros píxeles en crema evitan una línea oscura de 1 px en la unión con la sección de arriba */
   background: linear-gradient(180deg, #f1efe7 3px, #0a1a30 3px);
   padding: 0 0 28px;
 }
 
-/* ola que une la sección clara con el pie oscuro (de borde a borde) */
 .pie_ola {
   display: block;
   width: 100%;
@@ -406,7 +383,6 @@
   }
 }
 
-/* ---------- Movimiento reducido ---------- */
 @media (prefers-reduced-motion: reduce) {
   .modelo,
   .modelo_foto img,

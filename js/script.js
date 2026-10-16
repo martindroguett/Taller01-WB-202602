@@ -1,4 +1,3 @@
-// Si no hay GSAP o se reduce el movimiento, se muestra el estado final.
 if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const dDelgada = document.getElementById("tela-delgada").getAttribute("d");
   const dInflada = document.getElementById("tela-inflada").getAttribute("d");
@@ -23,7 +22,6 @@ if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matche
       attr: { d: dInflada },
       ease: "power2.out"
     })
-    // La cortina termina ajustada alrededor del reloj.
     .to(
       "#tela",
       {
