@@ -1,5 +1,10 @@
 # Taller 1 · Web Móvil
 
+## Integrantes
+- Martín Droguett
+- Catalina Galleguillos
+- Gael Ortega
+
 Prototipo de una página de presentación de producto desarrollado para el curso de Web Móvil.
 
 ## Tecnologías
