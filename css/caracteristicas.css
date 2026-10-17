@@ -254,8 +254,6 @@ main:has(.carac.en-pantalla) .hero-fondo {
   pointer-events: none;
 }
 
-/* Las burbujas siguen subiendo por el hero (js/fondo-caracteristicas.js).
-   Va antes de .escena en el HTML, así queda debajo de la tela azul y del reloj. */
 .hero-burbujas {
   position: absolute;
   inset: 0;
@@ -399,6 +397,49 @@ main:has(.carac.en-pantalla) .hero-fondo {
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .carac_escenario {
     padding-top: 0;
+  }
+}
+
+@media (min-width: 600px) and (max-height: 600px) and (prefers-reduced-motion: no-preference) {
+  .carac_escenario {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    padding: 28px 24px;
+  }
+
+  .carac_texto {
+    flex: 0 0 42%;
+  }
+
+  .carac_texto h2 {
+    font-size: 32px;
+  }
+
+  .carac_lista {
+    min-height: 130px;
+  }
+
+  .carac_lista li {
+    display: none;
+  }
+
+  .carac_lista li.activa,
+  .carac_lista li.activa p {
+    display: block;
+  }
+
+  .carac_reloj {
+    --cw: min(70vw, 650px);
+    flex: 1;
+    height: 70svh;
+    margin: 0;
+  }
+
+  .carac_escena {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 }
 

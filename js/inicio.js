@@ -14,7 +14,6 @@
       const escalaX = 1200 / rectTela.width;
       const escalaY = 800 / rectTela.height;
       const saliente = rectReloj.width * 0.03;
-      // El WebP mide 800 × 1180; el brazalete visible ocupa las filas 152 a 920.
       const arriba = (rectReloj.top - rectTela.top + rectReloj.height * 152 / 1180 + saliente) * escalaY;
       const abajo = (rectReloj.top - rectTela.top + rectReloj.height * 920 / 1180 - saliente) * escalaY;
       const centro = (rectReloj.left + rectReloj.width / 2 - rectTela.left) * escalaX;

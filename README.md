@@ -7,6 +7,20 @@
 
 Prototipo de una página de presentación de producto desarrollado para el curso de Introducción a Web/Móvil. Elegimos el Rolex Submariner porque es un reloj de buceo, y eso nos dio un hilo para toda la página: tela que se despliega al entrar, agua y burbujas en el fondo, y un descenso hasta los 300 metros mientras se baja por la página y olas animadas.
 
+La identidad visual combina formas orgánicas de Liquid Design y superficies translúcidas de Glassmorphism, con tonos azul marino y marfil, tipografía editorial y movimiento inspirado en el agua.
+
+## Cómo ejecutar el proyecto
+
+### Con Live Server en Visual Studio Code
+
+1. Clona este repositorio o descarga el ZIP y descomprímelo.
+2. Abre la carpeta del proyecto en Visual Studio Code con **Archivo → Abrir carpeta**.
+3. Instala la extensión **Live Server**, de **Ritwick Dey** (`ritwickdey.LiveServer`).
+4. Haz clic derecho sobre `index.html` y selecciona **Open with Live Server**. También puedes abrir ese archivo y pulsar **Go Live** en la barra inferior.
+5. La página se abrirá en el navegador, normalmente en `http://127.0.0.1:5500/`. Usa la dirección que indique Live Server si el puerto es distinto. Los cambios guardados se recargan automáticamente.
+
+No requiere instalar paquetes con npm ni compilar. Usa un navegador actualizado con soporte de WebGL y conexión a internet para cargar la librería del visor 3D desde el CDN; el modelo, las imágenes, las fuentes y GSAP están incluidos en el repositorio. Abre la página mediante el servidor local para que el navegador pueda cargar correctamente los recursos del visor 3D.
+
 ## Tecnologías
 
 La página está hecha con HTML, CSS y JavaScript sin frameworks, separados en una carpeta para estilos (`css/`) y otra para scripts (`js/`). Además usamos dos librerías:
