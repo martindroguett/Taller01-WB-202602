@@ -117,3 +117,33 @@
 
   document.addEventListener("visibilitychange", sincronizar);
 })();
+
+// El fondo de #caracteristicas sigue hacia arriba dentro del hero, hasta "en su elemento.".
+// Aquí se miden las distancias que usa .hero-fondo en caracteristicas.css.
+(() => {
+  const hero = document.getElementById("inicio");
+  const escenario = document.querySelector(".carac_escenario");
+  const tituloEm = hero?.querySelector("#hero-title em");
+  if (!escenario || !tituloEm) return;
+
+  // offsetTop ignora las transformaciones de la entrada animada del hero.
+  function topeEnDocumento(el) {
+    let y = 0;
+    for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
+    return y;
+  }
+
+  function medir() {
+    const desdeArriba = topeEnDocumento(tituloEm) - topeEnDocumento(hero);
+    const distancia = Math.max(0, Math.round(hero.offsetHeight - desdeArriba));
+    hero.style.setProperty("--extra-top", `${hero.offsetHeight - distancia}px`);
+    hero.style.setProperty("--extra-alto", `${distancia}px`);
+    hero.style.setProperty("--carac-alto", `${escenario.offsetHeight}px`);
+  }
+
+  medir();
+  const observador = new ResizeObserver(medir);
+  observador.observe(hero);
+  observador.observe(escenario);
+  document.fonts?.ready.then(medir);
+})();
