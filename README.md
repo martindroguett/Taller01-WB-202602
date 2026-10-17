@@ -5,7 +5,7 @@
 - Catalina Galleguillos
 - Gael Ortega
 
-Prototipo de una página de presentación de producto desarrollado para el curso de Web Móvil. Elegimos el Rolex Submariner porque es un reloj de buceo, y eso nos dio un hilo para toda la página: tela que se despliega al entrar, agua y burbujas en el fondo, y un descenso hasta los 300 metros mientras se baja por la página.
+Prototipo de una página de presentación de producto desarrollado para el curso de Introducción a Web/Móvil. Elegimos el Rolex Submariner porque es un reloj de buceo, y eso nos dio un hilo para toda la página: tela que se despliega al entrar, agua y burbujas en el fondo, y un descenso hasta los 300 metros mientras se baja por la página y olas animadas.
 
 ## Tecnologías
 
@@ -21,10 +21,10 @@ Las fuentes son Bodoni Moda (títulos) y Manrope (texto), incluidas en `assets/f
 Todas las animaciones, menos la línea de tiempo del inicio (GSAP) y el giro del modelo 3D (model-viewer), las programamos nosotros con CSS y JavaScript.
 
 ### Entrada (`js/inicio.js`)
-Al cargar la página, una tela azul se abre de lado a lado, el reloj aparece desde un poco más grande y la tela se infla y se ajusta alrededor del brazalete con un pequeño rebote. Después aparecen los pliegues de la tela y los textos suben uno tras otro. La forma final de la tela se calcula en JavaScript según dónde quedó el reloj en la pantalla, así que calza bien en cualquier tamaño de ventana.
+Al cargar la página, una tela azul se abre de lado a lado, el reloj aparece y la tela se infla y se ajusta alrededor del brazalete con un pequeño rebote. Después aparecen los pliegues de la tela y los textos suben uno tras otro. La forma final de la tela se calcula en JavaScript según dónde quedó el reloj en la pantalla, así que calza bien en cualquier tamaño de ventana.
 
 ### Fondo
-- **Burbujas** (`js/fondo-caracteristicas.js`): en la sección de detalles dibujamos burbujas en un `<canvas>`. Cada una sube a su propia velocidad y se mueve de lado a lado con una onda seno. Cuando el usuario hace scroll, reciben un empujón, como si el agua se moviera.
+- **Burbujas** (`js/fondo-caracteristicas.js`): en la sección de detalles dibujamos burbujas en un `<canvas>`. Cada una sube a su propia velocidad y se mueve de lado a lado con una onda seno. Cuando el usuario hace scroll, reciben un empujón, como si el agua se moviera. Al llegar arriba se desvanecen.
 - **Olas y luz** (`css/caracteristicas.css`): dos olas que se desplazan en sentidos contrarios y un reflejo de luz que va y viene, hechos solo con `@keyframes`.
 - **Oleaje del pie de página** (`css/pie.css`): tres capas de olas que avanzan a distinta velocidad.
 
