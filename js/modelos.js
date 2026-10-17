@@ -9,6 +9,7 @@
   const manecillaHora = document.getElementById("reloj-vivo-hora");
   const manecillaMinuto = document.getElementById("reloj-vivo-minuto");
   const manecillaSegundo = document.getElementById("reloj-vivo-segundo");
+  const relojCompleto = cara && manecillaHora && manecillaMinuto && manecillaSegundo;
 
   const RUTA_VIVO = "assets/reloj-vivo/";
   const reducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -16,10 +17,10 @@
   function seleccionar(opcion) {
     const modelo = opcion.dataset.modelo;
 
-    opciones.forEach((o) => {
-      const activa = o === opcion;
-      o.classList.toggle("activa", activa);
-      o.setAttribute("aria-pressed", String(activa));
+    opciones.forEach((alternativa) => {
+      const activa = alternativa === opcion;
+      alternativa.classList.toggle("activa", activa);
+      alternativa.setAttribute("aria-pressed", String(activa));
     });
 
     paneles.forEach((panel) => {
@@ -28,7 +29,7 @@
 
     insignia?.classList.toggle("visible", "insignia" in opcion.dataset);
 
-    if (cara) {
+    if (relojCompleto) {
       cara.src = RUTA_VIVO + opcion.dataset.base;
       const manecillas = opcion.dataset.manecillas;
       manecillaHora.src = `${RUTA_VIVO}horario${manecillas}.webp`;
@@ -39,9 +40,14 @@
 
   opciones.forEach((opcion) => {
     opcion.addEventListener("click", () => seleccionar(opcion));
+    opcion.addEventListener("focus", () => {
+      if (opcion.matches(":focus-visible")) {
+        opcion.scrollIntoView({ block: "nearest", inline: "center", behavior: "instant" });
+      }
+    });
   });
 
-  if (cara && manecillaHora && manecillaMinuto && manecillaSegundo) {
+  if (relojCompleto) {
     const actualizarReloj = () => {
       const ahora = new Date();
       const segundos = ahora.getSeconds() + ahora.getMilliseconds() / 1000;
@@ -84,7 +90,7 @@
   }
 
   if (!reducido && "IntersectionObserver" in window) {
-    opciones.forEach((o, i) => o.style.setProperty("--i", i));
+    opciones.forEach((opcion, i) => opcion.style.setProperty("--i", i));
     selector.classList.add("preparada");
     const observador = new IntersectionObserver(
       ([entrada]) => {

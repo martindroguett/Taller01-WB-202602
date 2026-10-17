@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Prototipo de hero con una animación de entrada." />
-  <title>Taller 1</title>
+  <meta name="description" content="Presentación interactiva del Rolex Submariner: características, vista 3D y colección." />
+  <title>Submariner · Taller 1 Web Móvil</title>
   <link rel="preload" as="image" href="assets/seda-reflejos.webp" />
+  <link rel="preload" as="font" href="assets/fonts/bodoni-moda-normal.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="font" href="assets/fonts/manrope.woff2" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/inicio.css" />
+  <link rel="stylesheet" href="css/navegacion.css" />
   <link rel="stylesheet" href="css/caracteristicas.css" />
+  <link rel="stylesheet" href="css/vista-3d.css" />
   <link rel="stylesheet" href="css/modelos.css" />
+  <link rel="stylesheet" href="css/pie.css" />
   <script src="js/vendor/gsap.min.js" defer></script>
-  <script src="js/script.js" defer></script>
+  <script src="js/inicio.js" defer></script>
+  <script src="js/navegacion.js" defer></script>
+  <script src="js/vista-3d.js" defer></script>
   <script src="js/caracteristicas.js" defer></script>
-  <script src="js/fondo-carac.js" defer></script>
+  <script src="js/fondo-caracteristicas.js" defer></script>
   <script src="js/modelos.js" defer></script>
 </head>
 <body>
@@ -30,296 +38,289 @@
     </div>
   </nav>
 
-  <main id="inicio" class="hero" aria-labelledby="hero-title">
-    <header class="hero-cabecera">
-      <a class="marca" href="#inicio" aria-label="Rolex, inicio">ROLEX<small>OYSTER PERPETUAL</small></a>
-      <span class="hero-referencia">SUBMARINER · 124060</span>
-    </header>
+  <main>
+    <section id="inicio" class="hero" aria-labelledby="hero-title">
+      <header class="hero-cabecera">
+        <a class="marca" href="#inicio" aria-label="Rolex, inicio">ROLEX<small>OYSTER PERPETUAL</small></a>
+        <span class="hero-referencia">SUBMARINER · 124060</span>
+      </header>
 
-    <div class="escena">
-      <div class="entrada-tela">
-        <svg class="cortina" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+      <div class="escena">
+        <div class="entrada-tela">
+          <svg class="cortina" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="marino" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="380" y2="850">
+                <stop offset="0" stop-color="#071321" />
+                <stop offset="0.22" stop-color="#172a3e" />
+                <stop offset="0.38" stop-color="#0e2034" />
+                <stop offset="0.6" stop-color="#102438" />
+                <stop offset="0.78" stop-color="#081727" />
+                <stop offset="1" stop-color="#263d50" />
+              </linearGradient>
+              <path id="tela-delgada" d="M -80 370 C 200 365 480 365 650 370 C 750 372 810 375 876 375 C 940 375 990 372 1280 370 L 1280 410 C 990 408 940 405 876 405 C 810 405 750 408 650 410 C 480 415 200 415 -80 410 Z" />
+              <path id="tela-inflada" d="M -80 -20 C 200 -20 480 -10 650 30 C 750 55 810 110 876 110 C 940 110 990 45 1280 -20 L 1280 820 C 990 745 940 670 876 670 C 810 670 750 725 650 750 C 480 790 200 790 -80 760 Z" />
+              <path id="tela-final" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
+              <clipPath id="recorte-tela"><use href="#tela" /></clipPath>
+            </defs>
+            <path id="tela" fill="url(#marino)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
+            <g id="pliegues" clip-path="url(#recorte-tela)">
+              <image href="assets/seda-reflejos.webp" x="-80" y="-20" width="1360" height="850" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="producto">
+          <img id="reloj" src="assets/m124060-0001.webp" alt="Rolex Submariner de acero Oystersteel, con esfera y bisel negros." width="800" height="1180" fetchpriority="high" />
+        </div>
+      </div>
+
+      <div class="presentacion">
+        <p class="etiqueta anim-texto">Oyster Perpetual · Submariner</p>
+        <h1 id="hero-title" class="anim-texto">El tiempo,<br /><em>en su elemento.</em></h1>
+        <div class="anim-texto">
+          <p class="descripcion">La profundidad de un icono. La precisión de cada detalle. Una presencia que trasciende la superficie.</p>
+          <div class="hero-acciones">
+            <a class="hero-boton" href="#modelos">
+              Descubrir la colección
+              <svg class="hero-icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+            </a>
+            <a class="hero-enlace" href="#caracteristicas">
+              Conocer el detalle
+              <svg class="hero-icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-meta">
+        <a href="#caracteristicas">CONTINÚA LA INMERSIÓN</a>
+        <span>OYSTERSTEEL · 41 MM</span>
+      </div>
+    </section>
+
+    <section id="caracteristicas" class="carac" aria-labelledby="titulo-carac">
+      <div class="carac_escenario">
+        <div class="carac_agua" aria-hidden="true">
+          <svg class="ola ola--atras" viewBox="0 0 2400 100" preserveAspectRatio="none">
+            <path d="M0 50 Q150 15 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" />
+          </svg>
+          <svg class="ola ola--frente" viewBox="0 0 2400 100" preserveAspectRatio="none">
+            <path d="M0 50 Q150 15 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" />
+          </svg>
+        </div>
+
+        <canvas class="carac_fondo" aria-hidden="true"></canvas>
+
+        <div class="carac_profundidad" aria-hidden="true">
+          <span class="valor"><span class="carac_metros">0</span><small>m</small></span>
+          <span class="rotulo">PROFUNDIDAD</span>
+        </div>
+
+        <div class="carac_texto">
+          <p class="etiqueta">CARACTERÍSTICAS</p>
+          <h2 id="titulo-carac">Cada pieza,<br /><em>una función</em></h2>
+
+          <ol class="carac_lista">
+            <li class="activa" data-desde="0">
+              <span class="num">01 · TAMAÑO</span>
+              <h3>Caja de 41 mm</h3>
+              <p>Fabricada en acero Oystersteel en sus versiones estándar, y también en otros materiales como oro y Rolesor.</p>
+            </li>
+            <li data-desde="0.15">
+              <span class="num">02 · MOVIMIENTO</span>
+              <h3>Calibre 3230</h3>
+              <p>El Submariner Date usa el calibre 3235. Reserva de marcha de aproximadamente 70 horas.</p>
+            </li>
+            <li data-desde="0.45">
+              <span class="num">03 · BISEL</span>
+              <h3>Bisel Cerachrom</h3>
+              <p>Bisel giratorio unidireccional con disco Cerachrom graduado en 60 minutos para controlar el tiempo de inmersión.</p>
+            </li>
+            <li data-desde="0.7">
+              <span class="num">04 · HERMETICIDAD</span>
+              <h3>300 metros</h3>
+              <p>Resistente al agua hasta 300 metros (1.000 pies) gracias a su caja Oyster y la corona Triplock.</p>
+            </li>
+            <li data-desde="0.86">
+              <span class="num">05 · BRAZALETE</span>
+              <h3>Brazalete Oyster</h3>
+              <p>Con cierre de seguridad Oysterlock y sistema de extensión Rolex Glidelock.</p>
+            </li>
+          </ol>
+        </div>
+
+        <div class="carac_reloj" role="img" aria-label="Rolex Submariner negro visto de costado: el bisel y el cristal se separan hacia arriba de la caja">
+          <div class="carac_escena">
+            <img class="capa capa--base" src="assets/reloj-capas/base.webp" alt="" width="1400" height="479" loading="lazy" decoding="async" />
+            <img class="capa capa--bisel" src="assets/reloj-capas/bisel.webp" alt="" width="741" height="335" loading="lazy" decoding="async" data-a="0.42" data-b="0.8" />
+            <img class="capa capa--cristal" src="assets/reloj-capas/cristal.webp" alt="" width="585" height="201" loading="lazy" decoding="async" data-a="0.12" data-b="0.48" />
+          </div>
+        </div>
+
+        <div class="carac_progreso" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section id="vista-3d" class="panel-3d" aria-labelledby="titulo-3d">
+      <div class="panel-3d_texto">
+        <p class="etiqueta">VISTA INTERACTIVA</p>
+        <h2 id="titulo-3d">Explora el <em>Submariner</em></h2>
+        <p class="descripcion">Conoce por completo el Submariner Date con nuestro modelo <b>3D</b></p>
+      </div>
+
+      <div class="visor-3d">
+        <svg class="visor-3d_lente" viewBox="0 0 720 560" preserveAspectRatio="none" aria-hidden="true" focusable="false">
           <defs>
-            <linearGradient id="marino" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="380" y2="850">
-              <stop offset="0" stop-color="#071321" />
-              <stop offset="0.22" stop-color="#172a3e" />
-              <stop offset="0.38" stop-color="#0e2034" />
-              <stop offset="0.6" stop-color="#102438" />
-              <stop offset="0.78" stop-color="#081727" />
-              <stop offset="1" stop-color="#263d50" />
+            <path id="lente-agua-forma" d="M103 157C164 70 302 38 441 64C565 87 677 163 670 278C664 388 557 484 418 500C288 516 106 464 64 370C26 286 49 232 103 157Z" />
+            <clipPath id="lente-agua-recorte"><use href="#lente-agua-forma" /></clipPath>
+            <radialGradient id="lente-agua-fondo" cx="32%" cy="25%" r="80%">
+              <stop stop-color="#ffffff" stop-opacity="0.6" />
+              <stop offset="0.42" stop-color="#d1e5e8" stop-opacity="0.28" />
+              <stop offset="0.8" stop-color="#8eb6c5" stop-opacity="0.2" />
+              <stop offset="1" stop-color="#4f829c" stop-opacity="0.32" />
+            </radialGradient>
+            <linearGradient id="lente-agua-borde" x1="0" y1="0" x2="0.7" y2="1">
+              <stop stop-color="#ffffff" />
+              <stop offset="0.32" stop-color="#f5ffff" stop-opacity="0.85" />
+              <stop offset="0.6" stop-color="#90b5c6" stop-opacity="0.25" />
+              <stop offset="0.86" stop-color="#e7dcc2" stop-opacity="0.8" />
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0.7" />
             </linearGradient>
-            <path id="tela-delgada" d="M -80 370 C 200 365 480 365 650 370 C 750 372 810 375 876 375 C 940 375 990 372 1280 370 L 1280 410 C 990 408 940 405 876 405 C 810 405 750 408 650 410 C 480 415 200 415 -80 410 Z" />
-            <path id="tela-inflada" d="M -80 -20 C 200 -20 480 -10 650 30 C 750 55 810 110 876 110 C 940 110 990 45 1280 -20 L 1280 820 C 990 745 940 670 876 670 C 810 670 750 725 650 750 C 480 790 200 790 -80 760 Z" />
-            <path id="tela-final" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
-            <clipPath id="recorte-tela"><use href="#tela" /></clipPath>
+            <linearGradient id="lente-agua-luz" x1="0" y1="0" x2="1" y2="0.8">
+              <stop stop-color="#ffffff" stop-opacity="0.9" />
+              <stop offset="0.5" stop-color="#e2f6f8" stop-opacity="0.4" />
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+            </linearGradient>
+            <filter id="lente-agua-difusion" x="-20%" y="-40%" width="140%" height="180%">
+              <feGaussianBlur stdDeviation="7" />
+            </filter>
           </defs>
-          <path id="tela" fill="url(#marino)" d="M -80 -20 C 200 -20 480 -10 640 55 C 745 100 810 215 876 215 C 940 215 995 90 1280 -20 L 1280 820 C 995 700 940 565 876 565 C 810 565 745 675 640 715 C 480 770 200 760 -80 730 Z" />
-          <g id="pliegues" clip-path="url(#recorte-tela)">
-            <image href="assets/seda-reflejos.webp" x="-80" y="-20" width="1360" height="850" />
+          <use href="#lente-agua-forma" fill="url(#lente-agua-fondo)" />
+          <g clip-path="url(#lente-agua-recorte)" fill="none">
+            <use href="#lente-agua-forma" stroke="#4b7896" stroke-width="18" opacity="0.12" />
+            <path d="M64 284C57 185 218 88 388 100C537 110 627 175 647 249" stroke="url(#lente-agua-luz)" stroke-width="28" filter="url(#lente-agua-difusion)" />
+            <path d="M79 312C99 372 160 344 197 382S241 467 363 475C493 485 606 420 640 342" stroke="url(#lente-agua-luz)" stroke-width="12" filter="url(#lente-agua-difusion)" />
+            <path d="M89 213C128 121 285 71 428 92M103 388C160 447 290 482 414 470C526 459 606 404 632 343" stroke="url(#lente-agua-borde)" stroke-width="1.5" opacity="0.55" />
+            <path d="M96 258C119 223 160 235 166 272S133 329 160 361M505 123C555 146 588 177 592 218" stroke="url(#lente-agua-luz)" stroke-width="2" />
           </g>
+          <use href="#lente-agua-forma" fill="none" stroke="url(#lente-agua-borde)" stroke-width="2.5" />
         </svg>
+        <model-viewer
+          id="modelo-3d"
+          class="visor-3d_viewer"
+          src="assets/submariner.glb"
+          environment-image="assets/studio-1k.hdr"
+          loading="lazy"
+          reveal="auto"
+          alt="Modelo 3D interactivo del Rolex Submariner Date"
+          camera-controls
+          interaction-prompt="none"
+          touch-action="pan-y"
+          auto-rotate
+          auto-rotate-delay="20"
+          rotation-per-second="10deg"
+          shadow-intensity="0.45"
+          exposure="1"
+          camera-orbit="135deg 75deg 105%"
+        >
+          <div slot="progress-bar" hidden></div>
+          <div class="visor-3d_carga" slot="poster" role="status">Cargando modelo…</div>
+        </model-viewer>
+      </div>
+    </section>
+
+    <section id="modelos" class="modelos" aria-labelledby="titulo-modelos">
+      <div class="modelos_cabecera">
+        <div class="modelos_etiqueta">
+          <p class="etiqueta">LA COLECCIÓN</p>
+          <span class="modelo_insignia visible" id="insignia-modelo">ESTE MODELO</span>
+        </div>
+        <h2 id="titulo-modelos">Un mismo espíritu,<br /><em>cinco caracteres</em></h2>
+        <p>El Submariner se ofrece en distintos materiales y colores de bisel. Elige un modelo para ver su detalle.</p>
       </div>
 
-      <div class="producto">
-        <img id="reloj" src="assets/m124060-0001.webp" alt="Rolex Submariner de acero Oystersteel, con esfera y bisel negros." width="800" height="1180" fetchpriority="high" />
-      </div>
-    </div>
+      <div class="modelos_panel">
+        <div class="modelos_info">
+          <div class="modelo_info" data-modelo="124060" style="--tono: #1b1d22">
+            <p class="modelo_bisel">Bisel negro</p>
+            <h3>Submariner</h3>
+            <p class="modelo_ref">REF. 124060</p>
+            <p class="modelo_detalle">Oystersteel, esfera negra y sin fecha. Calibre 3230: el modelo que presenta esta página.</p>
+          </div>
 
-    <div class="presentacion">
-      <p class="etiqueta anim-texto">Oyster Perpetual · Submariner</p>
-      <h1 id="hero-title" class="anim-texto">El tiempo,<br /><em>en su elemento.</em></h1>
-      <div class="anim-texto">
-        <p class="descripcion">La profundidad de un icono. La precisión de cada detalle. Una presencia que trasciende la superficie.</p>
-        <div class="hero-acciones">
-          <a class="hero-boton" href="#modelos">
-            Descubrir la colección
-            <svg class="hero-icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
-          </a>
-          <a class="hero-enlace" href="#caracteristicas">
-            Conocer el detalle
-            <svg class="hero-icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" /></svg>
-          </a>
+          <div class="modelo_info" data-modelo="126610LN" style="--tono: #1b1d22" hidden>
+            <p class="modelo_bisel">Bisel negro</p>
+            <h3>Submariner Date</h3>
+            <p class="modelo_ref">REF. 126610LN</p>
+            <p class="modelo_detalle">Oystersteel y esfera negra, con ventana de fecha a las 3 y calibre 3235.</p>
+          </div>
+
+          <div class="modelo_info" data-modelo="126610LV" style="--tono: #1f6b3a" hidden>
+            <p class="modelo_bisel">Bisel verde</p>
+            <h3>Submariner Date</h3>
+            <p class="modelo_ref">REF. 126610LV</p>
+            <p class="modelo_detalle">Oystersteel con bisel Cerachrom verde y esfera negra.</p>
+          </div>
+
+          <div class="modelo_info" data-modelo="126619LB" style="--tono: #1f45a8" hidden>
+            <p class="modelo_bisel">Bisel azul</p>
+            <h3>Submariner Date</h3>
+            <p class="modelo_ref">REF. 126619LB</p>
+            <p class="modelo_detalle">Oro blanco de 18 quilates, bisel Cerachrom azul y esfera negra.</p>
+          </div>
+
+          <div class="modelo_info" data-modelo="126613LB" style="--tono: #1f45a8; --aro: #c9a54a" hidden>
+            <p class="modelo_bisel">Bisel azul · Rolesor</p>
+            <h3>Submariner Date</h3>
+            <p class="modelo_ref">REF. 126613LB</p>
+            <p class="modelo_detalle">Rolesor amarillo (Oystersteel y oro amarillo), con bisel y esfera azules.</p>
+          </div>
+        </div>
+
+        <div class="modelos_vivo">
+          <div class="reloj-vivo" aria-hidden="true">
+            <img class="reloj-vivo_cara" id="reloj-vivo-cara" src="assets/reloj-vivo/base.png" alt="" width="814" height="814" loading="lazy" decoding="async" />
+            <img class="reloj-vivo_manecilla reloj-vivo_hora" id="reloj-vivo-hora" src="assets/reloj-vivo/horarioP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
+            <img class="reloj-vivo_manecilla reloj-vivo_minuto" id="reloj-vivo-minuto" src="assets/reloj-vivo/minuteroP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
+            <img class="reloj-vivo_manecilla reloj-vivo_segundo" id="reloj-vivo-segundo" src="assets/reloj-vivo/segunderoP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="hero-meta">
-      <a href="#caracteristicas">CONTINÚA LA INMERSIÓN</a>
-      <span>OYSTERSTEEL · 41 MM</span>
-    </div>
+      <ul class="modelos_selector">
+        <li>
+          <button type="button" class="modelo_opcion activa" style="--tono: #1b1d22" data-modelo="124060" data-base="base.png" data-manecillas="P" data-insignia aria-pressed="true">
+            <img src="assets/modelos/miniaturas/124060.webp" alt="Rolex Submariner 124060 de acero con bisel y esfera negros" width="347" height="560" loading="lazy" decoding="async" />
+            <span class="modelo_opcion_ref">124060</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="modelo_opcion" style="--tono: #1b1d22" data-modelo="126610LN" data-base="baseN.webp" data-manecillas="P" aria-pressed="false">
+            <img src="assets/modelos/miniaturas/126610ln.webp" alt="Rolex Submariner Date 126610LN de acero con bisel y esfera negros" width="347" height="560" loading="lazy" decoding="async" />
+            <span class="modelo_opcion_ref">126610LN</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="modelo_opcion" style="--tono: #1f6b3a" data-modelo="126610LV" data-base="baseV.webp" data-manecillas="P" aria-pressed="false">
+            <img src="assets/modelos/miniaturas/126610lv.webp" alt="Rolex Submariner Date 126610LV de acero con bisel verde y esfera negra" width="347" height="560" loading="lazy" decoding="async" />
+            <span class="modelo_opcion_ref">126610LV</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="modelo_opcion" style="--tono: #1f45a8" data-modelo="126619LB" data-base="baseA.webp" data-manecillas="P" aria-pressed="false">
+            <img src="assets/modelos/miniaturas/126619lb.webp" alt="Rolex Submariner Date 126619LB de oro blanco con bisel azul y esfera negra" width="347" height="560" loading="lazy" decoding="async" />
+            <span class="modelo_opcion_ref">126619LB</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="modelo_opcion" style="--tono: #1f45a8; --aro: #c9a54a" data-modelo="126613LB" data-base="baseD.webp" data-manecillas="D" aria-pressed="false">
+            <img src="assets/modelos/miniaturas/126613lb.webp" alt="Rolex Submariner Date 126613LB de acero y oro amarillo con bisel y esfera azules" width="347" height="560" loading="lazy" decoding="async" />
+            <span class="modelo_opcion_ref">126613LB</span>
+          </button>
+        </li>
+      </ul>
+    </section>
   </main>
-
-  <section id="caracteristicas" class="carac" aria-labelledby="titulo-carac">
-    <div class="carac_escenario">
-      <div class="carac_agua" aria-hidden="true">
-        <svg class="ola ola--atras" viewBox="0 0 2400 100" preserveAspectRatio="none">
-          <path d="M0 50 Q150 15 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" />
-        </svg>
-        <svg class="ola ola--frente" viewBox="0 0 2400 100" preserveAspectRatio="none">
-          <path d="M0 50 Q150 15 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" />
-        </svg>
-      </div>
-
-      <canvas class="carac_fondo" aria-hidden="true"></canvas>
-
-      <div class="carac_profundidad" aria-hidden="true">
-        <span class="valor"><span class="carac_metros">0</span><small>m</small></span>
-        <span class="rotulo">PROFUNDIDAD</span>
-      </div>
-
-      <div class="carac_texto">
-        <p class="etiqueta">CARACTERÍSTICAS</p>
-        <h2 id="titulo-carac">Cada pieza,<br /><em>una función</em></h2>
-
-        <ol class="carac_lista">
-          <li class="activa" data-desde="0">
-            <span class="num">01 · TAMAÑO</span>
-            <h3>Caja de 41 mm</h3>
-            <p>Fabricada en acero Oystersteel en sus versiones estándar, y también en otros materiales como oro y Rolesor.</p>
-          </li>
-          <li data-desde="0.15">
-            <span class="num">02 · MOVIMIENTO</span>
-            <h3>Calibre 3230</h3>
-            <p> El Submariner Date usa el calibre 3235. Reserva de marcha de aproximadamente 70 horas.</p>
-          </li>
-          <li data-desde="0.45">
-            <span class="num">03 · BISEL</span>
-            <h3>Bisel Cerachrom</h3>
-            <p>Bisel giratorio unidireccional con disco Cerachrom graduado en 60 minutos para controlar el tiempo de inmersión.</p>
-          </li>
-          <li data-desde="0.7">
-            <span class="num">04 · HERMETICIDAD</span>
-            <h3>300 metros</h3>
-            <p>Resistente al agua hasta 300 metros (1.000 pies) gracias a su caja Oyster y la corona Triplock.</p>
-          </li>
-          <li data-desde="0.86">
-            <span class="num">05 · BRAZALETE</span>
-            <h3>Brazalete Oyster</h3>
-            <p>Con cierre de seguridad Oysterlock y sistema de extensión Rolex Glidelock.</p>
-          </li>
-        </ol>
-      </div>
-
-      <div class="carac_reloj" role="img" aria-label="Rolex Submariner negro visto de costado: el bisel y el cristal se separan hacia arriba de la caja">
-        <div class="carac_escena">
-          <img class="capa capa--base" src="assets/reloj-capas/base.webp" alt="" width="1400" height="479" loading="lazy" decoding="async" />
-          <img class="capa capa--bisel" src="assets/reloj-capas/bisel.webp" alt="" width="741" height="335" loading="lazy" decoding="async" data-a="0.42" data-b="0.8" />
-          <img class="capa capa--cristal" src="assets/reloj-capas/cristal.webp" alt="" width="585" height="201" loading="lazy" decoding="async" data-a="0.12" data-b="0.48" />
-        </div>
-      </div>
-
-      <div class="carac_progreso" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <section id="vista-3d" class="panel-3d" aria-labelledby="titulo-3d">
-    <div class="panel-3d_texto">
-      <p class="etiqueta">VISTA INTERACTIVA</p>
-      <h2 id="titulo-3d">Explora el <em>Submariner</em></h2>
-      <p class="descripcion">Conoce por completo el Submariner Date con nuestro modelo <b>3D</b></p>
-    </div>
-
-    <div class="visor-3d">
-      <svg class="visor-3d_lente" viewBox="0 0 720 560" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <defs>
-          <path id="lente-agua-forma" d="M103 157C164 70 302 38 441 64C565 87 677 163 670 278C664 388 557 484 418 500C288 516 106 464 64 370C26 286 49 232 103 157Z" />
-          <clipPath id="lente-agua-recorte"><use href="#lente-agua-forma" /></clipPath>
-          <radialGradient id="lente-agua-fondo" cx="32%" cy="25%" r="80%">
-            <stop stop-color="#ffffff" stop-opacity="0.6" />
-            <stop offset="0.42" stop-color="#d1e5e8" stop-opacity="0.28" />
-            <stop offset="0.8" stop-color="#8eb6c5" stop-opacity="0.2" />
-            <stop offset="1" stop-color="#4f829c" stop-opacity="0.32" />
-          </radialGradient>
-          <linearGradient id="lente-agua-borde" x1="0" y1="0" x2="0.7" y2="1">
-            <stop stop-color="#ffffff" />
-            <stop offset="0.32" stop-color="#f5ffff" stop-opacity="0.85" />
-            <stop offset="0.6" stop-color="#90b5c6" stop-opacity="0.25" />
-            <stop offset="0.86" stop-color="#e7dcc2" stop-opacity="0.8" />
-            <stop offset="1" stop-color="#ffffff" stop-opacity="0.7" />
-          </linearGradient>
-          <linearGradient id="lente-agua-luz" x1="0" y1="0" x2="1" y2="0.8">
-            <stop stop-color="#ffffff" stop-opacity="0.9" />
-            <stop offset="0.5" stop-color="#e2f6f8" stop-opacity="0.4" />
-            <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
-          </linearGradient>
-          <filter id="lente-agua-difusion" x="-20%" y="-40%" width="140%" height="180%">
-            <feGaussianBlur stdDeviation="7" />
-          </filter>
-        </defs>
-        <use href="#lente-agua-forma" fill="url(#lente-agua-fondo)" />
-        <g clip-path="url(#lente-agua-recorte)" fill="none">
-          <use href="#lente-agua-forma" stroke="#4b7896" stroke-width="18" opacity="0.12" />
-          <path d="M64 284C57 185 218 88 388 100C537 110 627 175 647 249" stroke="url(#lente-agua-luz)" stroke-width="28" filter="url(#lente-agua-difusion)" />
-          <path d="M79 312C99 372 160 344 197 382S241 467 363 475C493 485 606 420 640 342" stroke="url(#lente-agua-luz)" stroke-width="12" filter="url(#lente-agua-difusion)" />
-          <path d="M89 213C128 121 285 71 428 92M103 388C160 447 290 482 414 470C526 459 606 404 632 343" stroke="url(#lente-agua-borde)" stroke-width="1.5" opacity="0.55" />
-          <path d="M96 258C119 223 160 235 166 272S133 329 160 361M505 123C555 146 588 177 592 218" stroke="url(#lente-agua-luz)" stroke-width="2" />
-        </g>
-        <use href="#lente-agua-forma" fill="none" stroke="url(#lente-agua-borde)" stroke-width="2.5" />
-      </svg>
-      <model-viewer
-        id="modelo-3d"
-        class="visor-3d_viewer"
-        src="assets/model.web.glb"
-        environment-image="assets/studio-1k.hdr"
-        loading="lazy"
-        reveal="auto"
-        alt="Modelo 3D"
-        camera-controls
-        interaction-prompt="none"
-        touch-action="pan-y"
-        auto-rotate
-        auto-rotate-delay="20"
-        rotation-per-second="10deg"
-        shadow-intensity="0.45"
-        exposure="1"
-        camera-orbit="135deg 75deg 105%"
-      >
-        <div class="visor-3d_carga" slot="poster">Cargando modelo…</div>
-      </model-viewer>
-    </div>
-  </section>
-
-  <section id="modelos" class="modelos" aria-labelledby="titulo-modelos">
-    <div class="modelos_cabecera">
-      <div class="modelos_etiqueta">
-        <p class="etiqueta">LA COLECCIÓN</p>
-        <span class="modelo_insignia visible" id="insignia-modelo">ESTE MODELO</span>
-      </div>
-      <h2 id="titulo-modelos">Un mismo espíritu,<br /><em>cinco caracteres</em></h2>
-      <p>El Submariner se ofrece en distintos materiales y colores de bisel. Elige un modelo para ver su detalle.</p>
-    </div>
-
-    <div class="modelos_panel">
-      <div class="modelos_info">
-        <div class="modelo_info" data-modelo="124060" style="--tono: #1b1d22">
-          <p class="modelo_bisel">Bisel negro</p>
-          <h3>Submariner</h3>
-          <p class="modelo_ref">REF. 124060</p>
-          <div class="modelo_detalle">
-            <p>Oystersteel, esfera negra y sin fecha. Calibre 3230: el modelo que presenta esta página.</p>
-          </div>
-        </div>
-
-        <div class="modelo_info" data-modelo="126610LN" style="--tono: #1b1d22" hidden>
-          <p class="modelo_bisel">Bisel negro</p>
-          <h3>Submariner Date</h3>
-          <p class="modelo_ref">REF. 126610LN</p>
-          <div class="modelo_detalle">
-            <p>Oystersteel y esfera negra, con ventana de fecha a las 3 y calibre 3235.</p>
-          </div>
-        </div>
-
-        <div class="modelo_info" data-modelo="126610LV" style="--tono: #1f6b3a" hidden>
-          <p class="modelo_bisel">Bisel verde</p>
-          <h3>Submariner Date</h3>
-          <p class="modelo_ref">REF. 126610LV</p>
-          <div class="modelo_detalle">
-            <p>Oystersteel con bisel Cerachrom verde y esfera negra.</p>
-          </div>
-        </div>
-
-        <div class="modelo_info" data-modelo="126619LB" style="--tono: #1f45a8" hidden>
-          <p class="modelo_bisel">Bisel azul</p>
-          <h3>Submariner Date</h3>
-          <p class="modelo_ref">REF. 126619LB</p>
-          <div class="modelo_detalle">
-            <p>Oro blanco de 18 quilates, bisel Cerachrom azul y esfera negra.</p>
-          </div>
-        </div>
-
-        <div class="modelo_info" data-modelo="126613LB" style="--tono: #1f45a8; --aro: #c9a54a" hidden>
-          <p class="modelo_bisel">Bisel azul · Rolesor</p>
-          <h3>Submariner Date</h3>
-          <p class="modelo_ref">REF. 126613LB</p>
-          <div class="modelo_detalle">
-            <p>Rolesor amarillo (Oystersteel y oro amarillo), con bisel y esfera azules.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="modelos_vivo">
-        <div class="reloj-vivo" aria-hidden="true">
-          <img class="reloj-vivo_cara" id="reloj-vivo-cara" src="assets/reloj-vivo/base.png" alt="" width="814" height="814" loading="lazy" decoding="async" />
-          <img class="reloj-vivo_manecilla reloj-vivo_hora" id="reloj-vivo-hora" src="assets/reloj-vivo/horarioP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
-          <img class="reloj-vivo_manecilla reloj-vivo_minuto" id="reloj-vivo-minuto" src="assets/reloj-vivo/minuteroP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
-          <img class="reloj-vivo_manecilla reloj-vivo_segundo" id="reloj-vivo-segundo" src="assets/reloj-vivo/segunderoP.webp" alt="" width="814" height="814" loading="lazy" decoding="async" />
-        </div>
-      </div>
-    </div>
-
-    <ul class="modelos_selector">
-      <li>
-        <button type="button" class="modelo_opcion activa" style="--tono: #1b1d22" data-modelo="124060" data-base="base.png" data-manecillas="P" data-insignia aria-pressed="true">
-          <img src="assets/modelos/miniaturas/124060.webp" alt="Rolex Submariner 124060 de acero con bisel y esfera negros" width="347" height="560" loading="lazy" decoding="async" />
-          <span class="modelo_opcion_ref">124060</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1b1d22" data-modelo="126610LN" data-base="baseN.webp" data-manecillas="P" aria-pressed="false">
-          <img src="assets/modelos/miniaturas/126610ln.webp" alt="Rolex Submariner Date 126610LN de acero con bisel y esfera negros" width="347" height="560" loading="lazy" decoding="async" />
-          <span class="modelo_opcion_ref">126610LN</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1f6b3a" data-modelo="126610LV" data-base="baseV.webp" data-manecillas="P" aria-pressed="false">
-          <img src="assets/modelos/miniaturas/126610lv.webp" alt="Rolex Submariner Date 126610LV de acero con bisel verde y esfera negra" width="347" height="560" loading="lazy" decoding="async" />
-          <span class="modelo_opcion_ref">126610LV</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1f45a8" data-modelo="126619LB" data-base="baseA.webp" data-manecillas="P" aria-pressed="false">
-          <img src="assets/modelos/miniaturas/126619lb.webp" alt="Rolex Submariner Date 126619LB de oro blanco con bisel azul y esfera negra" width="347" height="560" loading="lazy" decoding="async" />
-          <span class="modelo_opcion_ref">126619LB</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="modelo_opcion" style="--tono: #1f45a8; --aro: #c9a54a" data-modelo="126613LB" data-base="baseD.webp" data-manecillas="D" aria-pressed="false">
-          <img src="assets/modelos/miniaturas/126613lb.webp" alt="Rolex Submariner Date 126613LB de acero y oro amarillo con bisel y esfera azules" width="347" height="560" loading="lazy" decoding="async" />
-          <span class="modelo_opcion_ref">126613LB</span>
-        </button>
-      </li>
-    </ul>
-  </section>
 
   <footer class="pie">
     <svg class="pie_ola" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
@@ -341,7 +342,6 @@
           <li><a href="#modelos">Modelos</a></li>
         </ul>
       </nav>
-
     </div>
 
     <div class="pie_base">

@@ -6,10 +6,10 @@
 
   const capas = [...seccion.querySelectorAll(".capa[data-a]")];
   const items = [...seccion.querySelectorAll(".carac_lista li")];
+  const metros = seccion.querySelector(".carac_metros");
 
   const limitar = (t) => Math.min(1, Math.max(0, t));
 
-  // Smoothstep suaviza el inicio y el final del movimiento.
   const suavizar = (t) => t * t * (3 - 2 * t);
   let visible = false;
   let ultimoProgreso = -1;
@@ -17,7 +17,7 @@
 
   function progresoScroll() {
     const rect = seccion.getBoundingClientRect();
-    const recorrido = seccion.offsetHeight - window.innerHeight; 
+    const recorrido = seccion.offsetHeight - window.innerHeight;
     return limitar(-rect.top / recorrido);
   }
 
@@ -42,6 +42,7 @@
     }
 
     seccion.style.setProperty("--p", p.toFixed(4));
+    if (metros) metros.textContent = Math.round(p * 300);
   }
 
   let pendiente = false;
