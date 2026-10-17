@@ -178,6 +178,17 @@ function alScrollNavegacion() {
   programarActualizacionSeccion();
 }
 
+function actualizarIndicadorNavegacion() {
+  const enlace = navegacion.querySelector("a[aria-current]");
+  if (!enlace) return;
+
+  listaNavegacion.style.setProperty("--indicador-x", `${enlace.offsetLeft}px`);
+  listaNavegacion.style.setProperty("--indicador-y", `${enlace.offsetTop}px`);
+  listaNavegacion.style.setProperty("--indicador-ancho", `${enlace.offsetWidth}px`);
+  listaNavegacion.style.setProperty("--indicador-alto", `${enlace.offsetHeight}px`);
+  listaNavegacion.classList.add("has-indicator");
+}
+
 function actualizarSeccionNavegacion() {
   cuadroScrollPendiente = 0;
   const referencia = window.scrollY + window.innerHeight * 0.35;
@@ -203,6 +214,7 @@ function actualizarSeccionNavegacion() {
       seccionMenu.textContent = enlace.textContent;
     } else enlace.removeAttribute("aria-current");
   });
+  actualizarIndicadorNavegacion();
 }
 
 function programarActualizacionSeccion() {
@@ -213,6 +225,7 @@ function programarActualizacionSeccion() {
 }
 
 ajustarMenuMovil();
+new ResizeObserver(actualizarIndicadorNavegacion).observe(listaNavegacion);
 vistaMovil.addEventListener("change", ajustarMenuMovil);
 botonMenu.addEventListener("click", () => cambiarMenuNavegacion(!menuAbierto));
 listaNavegacion.addEventListener("click", (evento) => {
