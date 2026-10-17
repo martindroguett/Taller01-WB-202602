@@ -98,7 +98,6 @@
   transform: translateX(-50%);
 }
 
-/* --q desplaza cada capa según el progreso calculado en caracteristicas.js. */
 .capa {
   position: absolute;
   height: auto;
@@ -151,7 +150,6 @@
   transform: scaleX(var(--p, 0));
 }
 
-/* --p sincroniza el nivel del agua con el progreso de la sección. */
 .carac_agua {
   position: absolute;
   left: 0;
@@ -191,8 +189,6 @@
   to   { transform: translateX(-50%); }
 }
 
-/* Rayos de luz. El degradado es vertical y la inclinación (-10°) va en skewX, así el patrón
-   solo depende de x y .hero-fondo-luz lo continúa en el hero sin saltos. */
 .carac_escenario::before,
 .hero-fondo-luz {
   content: "";
@@ -222,8 +218,6 @@
   to   { transform: translateX(4%) skewX(-4deg);   opacity: 1; }
 }
 
-/* Continuación del fondo dentro del hero: sube hasta "en su elemento." (--extra-* los fija
-   fondo-caracteristicas.js). Se desvanece hacia arriba y coincide con el fondo de la sección en el borde. */
 .hero-fondo {
   --animacion-fondo: paused;
   position: absolute;
@@ -240,8 +234,7 @@ main:has(.carac.en-pantalla) .hero-fondo {
   --animacion-fondo: running;
 }
 
-/* Misma caja que el ::before de .carac_escenario: 160% de ancho, centro de inclinación a 32,5 % de su
-   alto bajo el borde. Mide 120 px de más hacia abajo para que el desenfoque no cree un corte. */
+
 .hero-fondo-luz {
   top: 0;
   left: -30%;
@@ -259,7 +252,6 @@ main:has(.carac.en-pantalla) .hero-fondo {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  /* Las burbujas se desvanecen al llegar arriba en vez de cortarse. */
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 140px);
   mask-image: linear-gradient(180deg, transparent 0, #000 140px);
 }
