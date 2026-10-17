@@ -252,8 +252,16 @@ main:has(.carac.en-pantalla) .hero-fondo {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 140px);
-  mask-image: linear-gradient(180deg, transparent 0, #000 140px);
+}
+
+/* Las burbujas siguen subiendo por el hero (js/fondo-caracteristicas.js).
+   Va antes de .escena en el HTML, así queda debajo de la tela azul y del reloj. */
+.hero-burbujas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .carac_profundidad {

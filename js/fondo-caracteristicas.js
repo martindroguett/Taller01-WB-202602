@@ -5,10 +5,19 @@
 
   const ctx = lienzo.getContext("2d");
   if (!ctx) return;
+  const escenario = lienzo.closest(".carac_escenario");
+  const hero = document.getElementById("inicio");
+  const lienzoHero = hero?.querySelector(".hero-burbujas");
+  const ctxHero = lienzoHero?.getContext("2d");
   const reducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Las burbujas viven en una sola columna de agua: arriba el hero y abajo el escenario de características.
+  // y = 0 es el borde superior del hero; y = altoHero es donde empieza el escenario.
+  // Cada lienzo dibuja solo su tramo, así una burbuja que sale por arriba de características sigue subiendo por el hero.
   let ancho = 0;
   let alto = 0;
+  let altoHero = 0;
+  let total = 0;
   let burbujas = [];
 
   const azar = (min, max) => min + Math.random() * (max - min);
@@ -17,7 +26,7 @@
     const r = azar(1.5, 7);
     return {
       x: azar(0, ancho),
-      y: enCualquierAltura ? azar(0, alto) : alto + r + azar(0, 60),
+      y: enCualquierAltura ? azar(0, total) : total + r + azar(0, 60),
       r,
       vel: azar(14, 30) * (0.6 + r / 10),
       fase: azar(0, Math.PI * 2),
@@ -26,34 +35,53 @@
     };
   }
 
-  function redimensionar() {
-    const rect = lienzo.getBoundingClientRect();
+  function ajustarLienzo(elemento, contexto) {
+    const rect = elemento.getBoundingClientRect();
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    ancho = rect.width;
-    alto = rect.height;
-    lienzo.width = Math.round(ancho * dpr);
-    lienzo.height = Math.round(alto * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    const cantidad = Math.round(Math.min(60, (ancho * alto) / 22000));
-    burbujas = Array.from({ length: cantidad }, () => crearBurbuja(true));
-
-    if (reducido) burbujas.forEach((b) => dibujarBurbuja(b, b.x));
+    elemento.width = Math.round(rect.width * dpr);
+    elemento.height = Math.round(rect.height * dpr);
+    contexto.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return rect;
   }
 
-  function dibujarBurbuja(b, x) {
-    ctx.beginPath();
-    ctx.arc(x, b.y, b.r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
-    ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(29, 79, 143, 0.3)";
-    ctx.stroke();
+  function redimensionar() {
+    const rect = ajustarLienzo(lienzo, ctx);
+    ancho = rect.width;
+    alto = rect.height;
+    altoHero = ctxHero ? ajustarLienzo(lienzoHero, ctxHero).height : 0;
+    total = altoHero + alto;
 
-    ctx.beginPath();
-    ctx.arc(x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.28, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-    ctx.fill();
+    // misma densidad que antes en características, repartida en toda la columna
+    const cantidad = Math.round(Math.min(60, (ancho * alto) / 22000) * (total / Math.max(alto, 1)));
+    burbujas = Array.from({ length: cantidad }, () => crearBurbuja(true));
+
+    if (reducido) dibujarTodas(0);
+  }
+
+  function dibujarBurbuja(contexto, x, y, r) {
+    contexto.beginPath();
+    contexto.arc(x, y, r, 0, Math.PI * 2);
+    contexto.fillStyle = "rgba(255, 255, 255, 0.35)";
+    contexto.fill();
+    contexto.lineWidth = 1;
+    contexto.strokeStyle = "rgba(29, 79, 143, 0.3)";
+    contexto.stroke();
+
+    contexto.beginPath();
+    contexto.arc(x - r * 0.35, y - r * 0.35, r * 0.28, 0, Math.PI * 2);
+    contexto.fillStyle = "rgba(255, 255, 255, 0.85)";
+    contexto.fill();
+  }
+
+  function dibujarTodas(t) {
+    ctx.clearRect(0, 0, ancho, alto);
+    ctxHero?.clearRect(0, 0, ancho, altoHero);
+
+    for (const b of burbujas) {
+      const x = b.x + Math.sin((t / 1000) * b.frec + b.fase) * b.amp;
+      if (ctxHero && b.y < altoHero + b.r) dibujarBurbuja(ctxHero, x, b.y, b.r);
+      if (b.y > altoHero - b.r) dibujarBurbuja(ctx, x, b.y - altoHero, b.r);
+    }
   }
 
   let ultimoScroll = window.scrollY;
@@ -71,17 +99,25 @@
     ultimoScroll = window.scrollY;
     impulso = Math.max(-20, Math.min(40, impulso * 0.9 + delta * 0.08));
 
-    ctx.clearRect(0, 0, ancho, alto);
+    // Con el escenario fijo en pantalla el hero ya quedó fuera de la vista: ahí el scroll empuja las burbujas
+    // de características (como si el buzo bajara) y las que salen por arriba vuelven a entrar por abajo.
+    const fijo = escenario.getBoundingClientRect().top <= 0;
 
     for (const b of burbujas) {
-      b.y -= b.vel * dt + impulso * (0.15 + b.r * 0.03);
-      if (b.y < -b.r - 10) Object.assign(b, crearBurbuja(false));
-      if (b.y > alto + 80) b.y = -b.r;
+      const enEscenario = b.y > altoHero - b.r;
+      b.y -= b.vel * dt + (fijo && enEscenario ? impulso * (0.15 + b.r * 0.03) : 0);
 
-      const x = b.x + Math.sin((t / 1000) * b.frec + b.fase) * b.amp;
-      dibujarBurbuja(b, x);
+      if (b.y < -b.r - 10) {
+        Object.assign(b, crearBurbuja(false));
+        // mientras el hero está fuera de la vista, sigue recibiendo burbujas desde abajo para no quedar vacío
+        if (fijo) b.y = altoHero - b.r - azar(1, 60);
+      } else if (fijo && enEscenario && b.y < altoHero - b.r - 10) {
+        Object.assign(b, crearBurbuja(false));
+      }
+      if (b.y > total + 80) b.y = altoHero - b.r;
     }
 
+    dibujarTodas(t);
     idCuadro = requestAnimationFrame(cuadro);
   }
 
@@ -99,21 +135,29 @@
   }
 
   redimensionar();
-  new ResizeObserver(redimensionar).observe(lienzo);
+  const observadorTamano = new ResizeObserver(redimensionar);
+  observadorTamano.observe(lienzo);
+  if (lienzoHero) observadorTamano.observe(lienzoHero);
 
   if (reducido) return;
 
-  let visible = false;
+  // Se anima mientras se vea el hero o características, y la pestaña esté visible.
+  let caracVisible = false;
+  let heroVisible = false;
   function sincronizar() {
-    const activa = visible && !document.hidden;
-    seccion.classList.toggle("en-pantalla", activa);
-    activa ? iniciar() : detener();
+    seccion.classList.toggle("en-pantalla", caracVisible && !document.hidden);
+    (caracVisible || heroVisible) && !document.hidden ? iniciar() : detener();
   }
 
-  new IntersectionObserver(([entrada]) => {
-    visible = entrada.isIntersecting;
+  const observadorVista = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.target === seccion) caracVisible = entrada.isIntersecting;
+      else heroVisible = entrada.isIntersecting;
+    });
     sincronizar();
-  }).observe(seccion);
+  });
+  observadorVista.observe(seccion);
+  if (lienzoHero) observadorVista.observe(hero);
 
   document.addEventListener("visibilitychange", sincronizar);
 })();
