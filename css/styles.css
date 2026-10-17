@@ -30,7 +30,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 24px;
 }
 
 * {
@@ -78,12 +77,6 @@ h2 {
 h2 em {
   font-style: normal;
   color: #1d4f8f;
-}
-
-@media (min-width: 768px) {
-  html {
-    scroll-padding-top: 88px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
