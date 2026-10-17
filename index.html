@@ -205,6 +205,7 @@
           </g>
           <use href="#lente-agua-forma" fill="none" stroke="url(#lente-agua-borde)" stroke-width="2.5" />
         </svg>
+        <button class="visor-3d_control" type="button" aria-label="Interactuar con el modelo 3D" aria-controls="modelo-3d" aria-pressed="false"></button>
         <model-viewer
           id="modelo-3d"
           class="visor-3d_viewer"
@@ -213,7 +214,8 @@
           loading="lazy"
           reveal="auto"
           alt="Modelo 3D interactivo del Rolex Submariner Date"
-          camera-controls
+          disable-zoom
+          disable-pan
           interaction-prompt="none"
           touch-action="pan-y"
           auto-rotate
@@ -222,6 +224,11 @@
           shadow-intensity="0.45"
           exposure="1"
           camera-orbit="135deg 75deg 105%"
+          min-camera-orbit="auto auto 0.128m"
+          max-camera-orbit="auto auto 105%"
+          field-of-view="45deg"
+          min-field-of-view="40deg"
+          max-field-of-view="45deg"
         >
           <div slot="progress-bar" hidden></div>
           <div class="visor-3d_carga" slot="poster" role="status">Cargando modelo…</div>
@@ -323,30 +330,37 @@
   </main>
 
   <footer class="pie">
-    <svg class="pie_ola" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 30 C 240 0 480 0 720 30 S 1200 60 1440 30 V60 H0 Z" />
-    </svg>
+    <div class="pie_mar" aria-hidden="true">
+      <svg class="pie_ola pie_ola--lejana" viewBox="0 0 2880 120" preserveAspectRatio="none" focusable="false">
+        <path d="M0 60 C240 12 480 12 720 60 S1200 108 1440 60 S1920 12 2160 60 S2640 108 2880 60 V120 H0 Z" />
+      </svg>
+      <svg class="pie_ola pie_ola--media" viewBox="0 0 2880 120" preserveAspectRatio="none" focusable="false">
+        <path d="M0 60 C240 12 480 12 720 60 S1200 108 1440 60 S1920 12 2160 60 S2640 108 2880 60 V120 H0 Z" />
+      </svg>
+      <svg class="pie_ola pie_ola--cercana" viewBox="0 0 2880 120" preserveAspectRatio="none" focusable="false">
+        <path d="M0 60 C240 12 480 12 720 60 S1200 108 1440 60 S1920 12 2160 60 S2640 108 2880 60 V120 H0 Z" />
+      </svg>
+    </div>
 
     <div class="pie_contenido">
-      <div>
-        <p class="pie_marca">Submariner</p>
-        <p class="pie_lema">El reloj de buceo de referencia desde 1953, hermético hasta 300 metros.</p>
-      </div>
+      <a class="pie_marca" href="#inicio" aria-label="Submariner, inicio">
+        <span>OYSTER PERPETUAL</span>
+        Submariner
+      </a>
 
-      <nav aria-label="Secciones">
-        <h3>SECCIONES</h3>
+      <nav class="pie_navegacion" aria-label="Explorar el Submariner">
         <ul>
-          <li><a href="#inicio">Inicio</a></li>
           <li><a href="#caracteristicas">Detalles</a></li>
           <li><a href="#vista-3d">Vista 3D</a></li>
           <li><a href="#modelos">Modelos</a></li>
         </ul>
       </nav>
+
+      <a class="pie_arriba" href="#inicio">Volver arriba <span aria-hidden="true">↑</span></a>
     </div>
 
     <div class="pie_base">
-      <p>Proyecto académico sin fines comerciales. Rolex, Submariner, Oyster, Oystersteel, Cerachrom y Rolesor son marcas de Rolex SA; las imágenes se usan con fines educativos.</p>
-      <a class="pie_arriba" href="#inicio">Volver arriba ↑</a>
+      <p>Proyecto académico · Sin afiliación con Rolex SA.</p>
     </div>
   </footer>
 </body>
